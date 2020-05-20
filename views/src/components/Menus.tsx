@@ -1,54 +1,52 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { history } from 'umi';
+import routes from '../../config/routes'
+
 const { SubMenu } = Menu;
 
-let route: any = {
-    'sub1': {
-        path: '/resource',
-        parent: 'sub1'
-    },
-    '5': {
-        path: '/baseLine',
-        parent: 'sub2'
-    },
-    '6': {
-        path: '/dynamicLine',
-        parent: 'sub2'
-    },
-    '7': {
-        path: '/cloudWifi',
-        parent: 'sub2'
-    },
-
-    '9': {
-        path: '/inLine',
-        parent: 'sub3'
-    },
-    '10': {
-        path: '/outLine',
-        parent: 'sub3'
-    },
-    '11': {
-        path: '/monitor',
-        parent: 'sub3'
-    },
-    '12': {
-        path: '/baseInfo',
-        parent: 'sub4'
-    },
-    '13': {
-        path: '/wallet',
-        parent: 'sub4'
-    },
-}
 class Sider extends React.Component {
+    // submenu keys of first level
+    rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'];
 
-
+    state = {
+        SelectKeys: ['1'],
+        openKeys: ['sub1'],
+    };
+    componentDidMount() {
+        history.listen(e => {
+            const route = routes[0].routes
+            let path = e.pathname
+            for (let i in route) {
+                if (route[i].path === path) {
+                    this.setState({
+                        // SelectKeys: [i],
+                        openKeys: [route[i].parent]
+                    });
+                }
+            }
+        })
+    }
+    onOpenChange = (openKeys: any[]) => {
+        const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
+        if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+            this.setState({ openKeys });
+        } else {
+            this.setState({
+                openKeys: latestOpenKey ? [latestOpenKey] : [],
+            });
+        }
+    };
 
     onItemChange = (item: { key: any; }) => {
+        const route: any[] = routes[0].routes
         let { key } = item
-        let data = route[key]
+        let arr = route.filter(items => {
+            if (key&&item.key === key) {
+                return items
+            }
+        })
+        let data = arr[0]
         history.push(data.path);
         this.setState({
             SelectKeys: [key],
@@ -58,27 +56,78 @@ class Sider extends React.Component {
     render() {
         return (
             <Menu
+            theme="dark"
+
                 mode="inline"
+                openKeys={this.state.openKeys}
+                onOpenChange={this.onOpenChange}
                 onClick={this.onItemChange}
+                selectedKeys={this.state.SelectKeys}
                 style={{ width: '100%' }}
             >
-             
-                <Menu.Item key="1">订单列表</Menu.Item>
-                <Menu.Item key="2">商户列表</Menu.Item>
-                <Menu.Item key="3">门店列表</Menu.Item>
-                <Menu.Item key="4">门店商品 </Menu.Item>
 
-                <Menu.Item key="5">服务记录</Menu.Item>
-                <Menu.Item key="6">商品列表</Menu.Item>
-                <Menu.Item key="7">商品类型</Menu.Item>
+                <SubMenu
+                    key="sub1"
+                    title={
+                        <span className='sub-title'>
+                            <span>訂單管理</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="1">訂單列表</Menu.Item>
+                </SubMenu>
+                <SubMenu
+                    key="sub2"
+                    title={
+                        <span className='sub-title'>
+                            <span>服務組織管理</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="4">商戶管理</Menu.Item>
+                    <Menu.Item key="5">門店管理</Menu.Item>
+                </SubMenu>
+                <SubMenu
+                    key="sub3"
+                    title={
+                        <span className='sub-title'>
+                            <span>商品設置管理</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="6">商品列表</Menu.Item>
+                    <Menu.Item key="7">商品類型</Menu.Item>
+                    <Menu.Item key="8">參數管理</Menu.Item>
+                    <Menu.Item key="9">價格策略</Menu.Item>
+                </SubMenu>
 
-                <Menu.Item key="8">参数管理</Menu.Item>
-                <Menu.Item key="9">xxx</Menu.Item>
-                <Menu.Item key="10">运营管理</Menu.Item>
-                <Menu.Item key="11">价格管理</Menu.Item>
-                <Menu.Item key="12">优惠券管理</Menu.Item>
-                <Menu.Item key="13">用户管理</Menu.Item>
-                <Menu.Item key="14">管理员设置</Menu.Item>
+                <SubMenu
+                    key="sub4"
+                    title={
+                        <span className='sub-title'>
+                            <span>商品設置管理</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="10">商品列表</Menu.Item>
+                    <Menu.Item key="11">商品類型</Menu.Item>
+                </SubMenu>
+                <Menu.Item key="12">優惠券管理</Menu.Item>
+                <SubMenu
+                    key="sub5"
+                    title={
+                        <span className='sub-title'>
+                            <span>運營管理</span>
+                        </span>
+                    }
+                >
+                    <Menu.Item key="13">公告管理</Menu.Item>
+                    <Menu.Item key="14">廣告管理</Menu.Item>
+                    <Menu.Item key="15">積分規則</Menu.Item>
+                </SubMenu>
+                <Menu.Item key="16">用戶管理</Menu.Item>
+                <Menu.Item key="17">管理員設置</Menu.Item>
+
             </Menu>
         );
     }

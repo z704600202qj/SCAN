@@ -4,17 +4,20 @@
 
 .layout-warp {
   display: flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
-
   .layout-menu {
     width: 225px;
     top: 70px;
     height: 100%;
-   border-right:2px solid#f0f0f0;
+    border-right: 2px solid#f0f0f0;
+    background: rgb(0, 21, 41);
+    height:calc(100vh - 70px); 
+
   }
 
   .layout-content {
     flex: 1;
+    background: rgba(240, 242, 245, 1);
+    height:calc(100vh - 70px); 
+    overflow-y: scroll;
   }
 }
