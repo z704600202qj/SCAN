@@ -10,22 +10,28 @@ class Sider extends React.Component {
     rootSubmenuKeys = ['sub1', 'sub2', 'sub3', 'sub4', 'sub5'];
 
     state = {
-        SelectKeys: ['1'],
-        openKeys: ['sub1'],
+        SelectKeys: [],
+        openKeys: [],
     };
     componentDidMount() {
+        this.opens(history.location.pathname)
         history.listen(e => {
-            const route = routes[0].routes
             let path = e.pathname
-            for (let i in route) {
-                if (route[i].path === path) {
-                    this.setState({
-                        // SelectKeys: [i],
-                        openKeys: [route[i].parent]
-                    });
-                }
-            }
+            this.opens(path)
         })
+    }
+    opens = (path: string) => {
+        const route = routes[1].routes
+        for (let i in route) {
+            let k = Number(i)
+            if (route[k].path === path) {
+                let i: string = route[k].key
+                this.setState({
+                    openKeys: [route[k].parent],
+                    SelectKeys: [i.indexOf('-') > 0 ? i.split('-')[0] : i],
+                });
+            }
+        }
     }
     onOpenChange = (openKeys: any[]) => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
@@ -39,10 +45,10 @@ class Sider extends React.Component {
     };
 
     onItemChange = (item: { key: any; }) => {
-        const route: any[] = routes[0].routes
+        const route: any[] = routes[1].routes
         let { key } = item
         let arr = route.filter(items => {
-            if (key&&item.key === key) {
+            if (key && items.key === key) {
                 return items
             }
         })
@@ -56,8 +62,7 @@ class Sider extends React.Component {
     render() {
         return (
             <Menu
-            theme="dark"
-
+                theme="dark"
                 mode="inline"
                 openKeys={this.state.openKeys}
                 onOpenChange={this.onOpenChange}
@@ -84,8 +89,8 @@ class Sider extends React.Component {
                         </span>
                     }
                 >
-                    <Menu.Item key="4">商戶管理</Menu.Item>
-                    <Menu.Item key="5">門店管理</Menu.Item>
+                    <Menu.Item key="2">商戶管理</Menu.Item>
+                    <Menu.Item key="3">門店管理</Menu.Item>
                 </SubMenu>
                 <SubMenu
                     key="sub3"
@@ -95,38 +100,26 @@ class Sider extends React.Component {
                         </span>
                     }
                 >
-                    <Menu.Item key="6">商品列表</Menu.Item>
-                    <Menu.Item key="7">商品類型</Menu.Item>
-                    <Menu.Item key="8">參數管理</Menu.Item>
-                    <Menu.Item key="9">價格策略</Menu.Item>
+                    <Menu.Item key="4">商品列表</Menu.Item>
+                    <Menu.Item key="5">商品類型</Menu.Item>
+                    <Menu.Item key="6">參數管理</Menu.Item>
                 </SubMenu>
 
+                <Menu.Item key="7">優惠券管理</Menu.Item>
                 <SubMenu
                     key="sub4"
-                    title={
-                        <span className='sub-title'>
-                            <span>商品設置管理</span>
-                        </span>
-                    }
-                >
-                    <Menu.Item key="10">商品列表</Menu.Item>
-                    <Menu.Item key="11">商品類型</Menu.Item>
-                </SubMenu>
-                <Menu.Item key="12">優惠券管理</Menu.Item>
-                <SubMenu
-                    key="sub5"
                     title={
                         <span className='sub-title'>
                             <span>運營管理</span>
                         </span>
                     }
                 >
-                    <Menu.Item key="13">公告管理</Menu.Item>
-                    <Menu.Item key="14">廣告管理</Menu.Item>
-                    <Menu.Item key="15">積分規則</Menu.Item>
+                    <Menu.Item key="8">廣告管理</Menu.Item>
+                    <Menu.Item key="9">公告管理</Menu.Item>
+                    <Menu.Item key="11">价格管理</Menu.Item>
                 </SubMenu>
-                <Menu.Item key="16">用戶管理</Menu.Item>
-                <Menu.Item key="17">管理員設置</Menu.Item>
+                <Menu.Item key="12">用戶管理</Menu.Item>
+                <Menu.Item key="13">管理員設置</Menu.Item>
 
             </Menu>
         );

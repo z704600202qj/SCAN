@@ -12,23 +12,66 @@ interface propsType {
 }
 
 const Layout = (props: propsType) => {
-  const [activeKey, setActiveKey] = useState()
+  const { children } = props
+  const [activeKey, setActiveKey] = useState('1')
   const [panes, setPanes] = useState<any[]>([])
 
   useEffect(() => {
     let arr: { key: string, title: string, path: string }[] = JSON.parse(JSON.stringify(panes))
-    routes[0].routes.filter((item: any) => {
+    let route = routes[1].routes
+    let data: any = arr.find((item: any) => {
       if (item.path === history.location.pathname) {
-        arr.push(item)
-        setPanes(arr)
+        setActiveKey(item.key)
         return item
       }
-    })
+    }) || []
+    if (data.length === 0) {
+      route.filter((item: any) => {
+        if (item.path === history.location.pathname) {
+          arr.push(item)
+          setActiveKey(item.key)
+          setPanes(arr)
+          return item
+        }
+      })
+    }
   }, [history.location.pathname])
+  const edits = (e: string | React.MouseEvent<HTMLElement, MouseEvent>) => {
+    let lastIndex: number = 0;
+    let active;
+    if (panes.length === 1) {
+      return
+    }
+    panes.forEach((pane, i) => {
+      if (pane.key === e) {
+        lastIndex = i - 1;
+      }
+    });
 
-
-  const { children } = props
-  console.log(123, panes)
+    let arr = panes.filter(pane => pane.key !== e);
+    if (arr.length && e === activeKey) {
+      if (lastIndex >= 0) {
+        active = arr[lastIndex].key;
+        history.replace(arr[lastIndex].path)
+      } else {
+        active = arr[0].key;
+        history.replace(arr[0].path)
+      }
+    } else {
+      active = arr[0].key;
+      history.replace(arr[0].path)
+    }
+    setActiveKey(active)
+    setPanes(arr)
+  }
+  const onChange = (e: string) => {
+    panes.forEach((pane, i) => {
+      if (pane.key === e) {
+        setActiveKey(pane.key)
+        history.replace(pane.path)
+      }
+    });
+  }
 
   return (
     <div className='layout'>
@@ -39,6 +82,9 @@ const Layout = (props: propsType) => {
           </div>
           <div className='header-right' >
             <Tabs
+              onEdit={(e) => edits(e)}
+              onChange={(e) => onChange(e)}
+              activeKey={activeKey}
               hideAdd
               type="editable-card"
             >
@@ -50,13 +96,7 @@ const Layout = (props: propsType) => {
           </div>
         </div>
       </div>
-      <div  >
-        {
-          children
-        }
-      </div>
-
-
+        {children }
     </div>
   );
 }

@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize');
 
 const dbConfig = {
-  database: 'users',      // 数据库名
-  username: 'postgres',   // 用户名
-  password: '123456',     // 本地数据库密码
-  host: 'localhost',      // 数据库服务器IP
-  dialect: 'postgres'     // 数据库类型
+  database: 'yinyin',      // 数据库名
+  username: 'yinyin',   // 用户名
+  password: 'yinyin123',     // 本地数据库密码
+  host: '42.56.89.212',      // 数据库服务器IP
+  dialect: 'mysql'     // 数据库类型
 }
 
 const sequelize = new Sequelize(

@@ -1,20 +1,27 @@
 .header-content {
-    display: flex;
-    align-items: center;
     height: 64px;
+    width: 100%;
+    overflow: hidden;
 
     .header-logo {
+        float: left;
+
         width: 223px;
         height: 64px;
         background: rgba(0, 40, 77, 1);
     }
-.header-right{
-    flex: 1;
-    height: 64px;
-    display: flex;
-    align-items: flex-end;
-    border-bottom: 1px solid #ccc;
-}
+
+    .header-right {
+        height: 64px;
+        display: flex;
+        align-items: flex-end;
+        border-bottom: 1px solid #ccc;
+
+        .ant-tabs {
+            width: 900px;
+        }
+    }
+
     .ant-tabs-bar {
         margin: 0 25px;
     }
