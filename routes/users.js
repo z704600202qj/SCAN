@@ -1,13 +1,24 @@
-const router = require('koa-router')()
+const Router = require('koa-router')
+const {User} = require('../models/yy_user.js')
 
-router.prefix('/users')
-
-router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
+const router = new Router({
+  prefix: '/users'
 })
 
-router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
+
+router.post('/register', async (ctx, next) => {
+  const {
+    nickname,
+    mobile,
+    password
+  } = ctx.request.body
+  let d = await User.createAccount(nickname, mobile,password)
+  ctx.body = new global.errs.Success(d)
+})
+router.post('/login', async (ctx, next) => {
+  const {mobile,password} = ctx.request.body
+  let d = await User.verifyPassword(mobile, password)
+  ctx.body = new global.errs.Success(d)
 })
 
 module.exports = router

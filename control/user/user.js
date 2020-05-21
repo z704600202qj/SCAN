@@ -1,5 +1,4 @@
-const User = require('../../models/yy_user.js')
-const db = require('../../config/db')
+const {User} = require('../../models/yy_user.js')
 
 module.exports = {
   // 查询一条
@@ -7,7 +6,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       User.findOne({
         where: {
-          user_name: username
+          mobile: username
         }
       }).then((res) => {
         // 对数据进行处理
@@ -79,15 +78,5 @@ module.exports = {
       })
     })
   },
-  // 原始sql语句查询
-  queryBySql(){
-    return new Promise( (resolve, reject) => {
-      let sql = `SELECT * FROM user`
-      db.query(sql).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    } )
-  }
+ 
 }

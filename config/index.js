@@ -1,12 +1,12 @@
 module.exports = {
     database: {
         dbName: 'yinyin',
-        host: '49.235.196.217',
+        host: '42.56.89.212',
         dialect: 'mysql',
         port: 3306,
         user: 'yinyin',
         password: 'yinyin123',
         logging: false,
-        timezone: '+08:00'
+        timezone: '+08:00',
     },
 }

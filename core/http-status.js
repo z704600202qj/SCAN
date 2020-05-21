@@ -15,7 +15,7 @@ class ParameterException extends HttpException {
         super()
         this.code = 400
         this.msg = msg || '参数错误'
-        this.errorCode = errorCode || 10000
+        this.error_code = errorCode || 10000
 
     }
 }

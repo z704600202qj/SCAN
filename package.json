@@ -19,8 +19,11 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-views": "^6.2.0",
+    "mysql2": "^1.7.0",
     "pug": "^2.0.3",
-    "sequelize": "^5.21.9"
+    "require-directory": "^2.1.1",
+    "sequelize": "^5.19.8"
+
   },
   "devDependencies": {
     "ms": "^2.1.2",

@@ -11,6 +11,7 @@ const sequelize = new Sequelize(dbName, user, password, {
     host,
     port,
     logging,
+    timestamps:false,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
     deletedAt: 'deleted_at',
