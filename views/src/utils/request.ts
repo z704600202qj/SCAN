@@ -47,6 +47,7 @@ instance.interceptors.request.use(function (config) {
             }
         }
     }
+    config.headers.common["Authorization"] = "Basic " + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXsssVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE1OTAxMzgwMjAsImV4cCI6MTU5MjczMDAyMH0.AGm-a4uIwDghk2lfjkScOBxMwhJLj3gCDeN48QUQ7_k';
     return Promise.resolve(config);
 }, function (error) {
     // 对请求错误做处理...
@@ -87,7 +88,7 @@ switch (process.env.NODE_ENV) {
         baseUrl = '/api'
         break
     case 'production':
-        baseUrl = '/shanxun_api'
+        baseUrl = '/'
         break
 }
 //request.js

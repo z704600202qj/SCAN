@@ -2,7 +2,7 @@ const Router = require('koa-router')
 const { User } = require('../models/yy_user.js')
 
 const router = new Router({
-  prefix: '/users'
+  prefix: '/user'
 })
 
 

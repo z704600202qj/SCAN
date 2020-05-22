@@ -4,7 +4,6 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const koaValidator = require('koa-middle-validator');
 
 const InitManager = require('./core/init')
 const validator = require('./core/validator')

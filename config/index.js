@@ -9,4 +9,8 @@ module.exports = {
         logging: false,
         timezone: '+08:00',
     },
+    security:{
+        secretKey:"abcdefg",
+        expiresIn:60*60*24*30
+    }
 }

@@ -4,7 +4,6 @@ class HttpException extends Error {
     constructor(msg = '服务器异常', errorCode = '10000', code = 400) {
         super()
         this.errorCode = errorCode;
-        this.code = code;
         this.msg = msg
     }
 }
@@ -12,7 +11,6 @@ class HttpException extends Error {
 class ParameterException extends HttpException {
     constructor(msg, errorCode) {
         super()
-        this.code = 200
         this.msg = msg || '参数错误'
         this.errorCode = 10000
     }
@@ -21,7 +19,6 @@ class ParameterException extends HttpException {
 class Success extends HttpException {
     constructor(msg, errorCode) {
         super()
-        this.code = 201
         this.msg = msg || 'ok'
         this.errorCode = 200
     }
@@ -30,7 +27,6 @@ class Success extends HttpException {
 class NotFound extends HttpException {
     constructor(msg, errorCode) {
         super()
-        this.code = 200
         this.msg = msg || 'ok'
         this.errorCode = errorCode || 404
     }
@@ -41,7 +37,6 @@ class AuthFailed extends HttpException {
         super()
         this.msg = msg || '授权失败'
         this.errorCode = errorCode || 10004
-        this.code = 401
     }
 }
 
@@ -50,7 +45,6 @@ class Forbbiden extends HttpException {
         super()
         this.msg = msg || '禁止访问'
         this.errorCode = errorCode || 10006
-        this.code = 403
     }
 }
 module.exports = {

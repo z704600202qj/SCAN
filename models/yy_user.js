@@ -3,6 +3,7 @@ const {
   Sequelize,
   Model
 } = require('sequelize')
+
 const {
   sequelize
 } = require('../core/db')
@@ -79,6 +80,7 @@ User.init({
   updatedAt: false,
   deletedAt: false
 })
+
 module.exports = {
   User
 }

@@ -6,7 +6,7 @@ interface types {
     parent?: string,
     routes?: any[],
 }
-let arr: any[] = [
+let arr = [
     { path: '/login', component: 'login', title: '管理後台', key: '17', parent: '' },
 
     {
@@ -43,7 +43,7 @@ let arr: any[] = [
             { path: '/userList', component: 'userList', title: '用戶管理', key: '12', parent: '' },
             { path: '/userDetail', component: 'userList/detail', title: '用戶詳情', key: '12-1', parent: '' },
             { path: '/administrator', component: 'administrator', title: '管理員設置', key: '13', parent: '' },
-            { path: '', component: '404', title: '404', key: '' },
+            { component: '404', title: '404', key: '' },
         ],
     },
 
