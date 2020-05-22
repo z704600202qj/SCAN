@@ -4,7 +4,10 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const koaValidator = require('koa-middle-validator');
+
 const InitManager = require('./core/init')
+const validator = require('./core/validator')
 
 // error handler
 onerror(app)
@@ -12,6 +15,7 @@ onerror(app)
 // middlewares
 app.use(bodyparser())
 app.use(json())
+app.use(validator())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
@@ -26,8 +30,8 @@ app.use(async (ctx, next) => {
 InitManager.initCode(app)
 
 // // error-handling
-// app.on('error', (err, ctx) => {
-//   console.error('server error', err, ctx)
-// });
+app.on('error', (err, ctx) => {
+  console.error('server error', err, ctx)
+});
 
 module.exports = app

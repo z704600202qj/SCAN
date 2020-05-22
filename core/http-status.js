@@ -6,39 +6,37 @@ class HttpException extends Error {
         this.errorCode = errorCode;
         this.code = code;
         this.msg = msg
-
-
     }
 }
+// 匹配错误
 class ParameterException extends HttpException {
     constructor(msg, errorCode) {
         super()
-        this.code = 400
+        this.code = 200
         this.msg = msg || '参数错误'
-        this.error_code = errorCode || 10000
-
+        this.errorCode = 10000
     }
 }
 
-class Success extends HttpException{
+class Success extends HttpException {
     constructor(msg, errorCode) {
         super()
         this.code = 201
         this.msg = msg || 'ok'
-        this.errorCode =200
+        this.errorCode = 200
     }
 }
-class NotFound extends HttpException{
+// 查找不存在
+class NotFound extends HttpException {
     constructor(msg, errorCode) {
         super()
-        this.code = 404
+        this.code = 200
         this.msg = msg || 'ok'
-        this.errorCode = errorCode || 0
-
+        this.errorCode = errorCode || 404
     }
 }
 
-class AuthFailed  extends HttpException {
+class AuthFailed extends HttpException {
     constructor(msg, errorCode) {
         super()
         this.msg = msg || '授权失败'
@@ -47,7 +45,7 @@ class AuthFailed  extends HttpException {
     }
 }
 
-class Forbbiden extends HttpException{
+class Forbbiden extends HttpException {
     constructor(msg, errorCode) {
         super()
         this.msg = msg || '禁止访问'
