@@ -7,7 +7,7 @@ class Auth {
     get levels() {
         return async (ctx, next) => {
             const token = ctx.get('Authorization') // 获取请求 Header 中 Authorization 值
-            console.log(global.config.security.secretKey)
+            console.log(ctx)
             let errMsg = 'token不合法'
             if (!token) {
                 ctx.body = new global.errs.Forbbiden('未登陆')
