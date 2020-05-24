@@ -22,8 +22,7 @@ const instance = axios.create({
 // 实例添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做处理...
-    let data: any = localStorage.getItem('userInfo')
-    const { userId } = data ? JSON.parse(data) : { userId: '' }
+    let str: any = localStorage.getItem('tokens')
     config.headers = Object.assign(config.method === 'get' ? {
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8'
@@ -38,16 +37,14 @@ instance.interceptors.request.use(function (config) {
             if (contentType.includes('multipart')) { // 类型 'multipart/form-data;'
                 // config.data = data;
             } else if (contentType.includes('json')) { // 类型 'application/json;'
-                // 服务器收到的raw body(原始数据) "{name:"nowThen",age:"18"}"（普通字符串）
-                // userId: "aiqvpbk6wr7rno694pjbfwxpq7dfc7kb"
-                config.data = JSON.stringify({ userId: userId, ...config.data });
+                config.data = JSON.stringify({ ...config.data });
             } else { // 类型 'application/x-www-form-urlencoded;'
                 // 服务器收到的raw body(原始数据) name=nowThen&age=18
-                config.data = Qs.stringify({ userId: userId, ...config.data });
+                config.data = Qs.stringify({ ...config.data });
             }
         }
     }
-    // config.headers.common["Authorization"] = "Basic " + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXsssVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiIxMjM0NTYiLCJpYXQiOjE1OTAxMzgwMjAsImV4cCI6MTU5MjczMDAyMH0.AGm-a4uIwDghk2lfjkScOBxMwhJLj3gCDeN48QUQ7_k';
+    config.headers.common["Authorization"] = "Basic " + str
     return Promise.resolve(config);
 }, function (error) {
     // 对请求错误做处理...
@@ -57,15 +54,6 @@ instance.interceptors.request.use(function (config) {
 // 实例添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做处理，以下根据实际数据结构改动！！...
-
-    // const { reason_code } = response.data || {};
-    // if (reason_code === '001') { // 请求超时，跳转登录页
-    //   const instance = Toast('请求超时，即将跳转到登录页面...');
-    //   setTimeout(() => {
-    //     instance.close();
-    //     window.location.href = '/login';
-    //   }, 3000)
-    // }
     return Promise.resolve(checkStatus(response));
 }, function (error) {
     // 对响应错误做处理...
@@ -106,23 +94,10 @@ const request = async function (opt: any) {
         options.baseURL = baseUrl;
 
         const res: any = await instance(options);
-        if (options.isUserId && !userId) {
-            history.push('/login')
-            window.location.reload()
-            return
-        }
-        // if (res.returnCode === '00010002' && opt.url !== '/user/doLogin') {
-        //     // history.push('/login')
-        //     // window.location.reload()
-        //     return
-        // }
-        if ((res.returnMsg === '未找到该用户'||res.returnMsg === '用户不存在')&& opt.url !== '/user/doLogin') {
-            history.push('/login')
-            window.location.reload()
-            return
-        }
-        if (res.returnCode !== '00010001' && options.ifHandleError) { // 自定义参数，是否允许全局提示错误信息
-            message.error(res.returnMsg || '请求处理失败！');
+        console.log(res)
+     
+        if (res.code !== 200 && options.ifHandleError) { // 自定义参数，是否允许全局提示错误信息
+            message.error(res.msg || '请求处理失败！');
         }
         return res;
     } catch (err) {

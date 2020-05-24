@@ -20,10 +20,6 @@ const tabListNoTitle = [
       key: '優惠券',
       tab: '優惠券',
     },
-    {
-        key: '日誌',
-        tab: '日誌',
-      },
   ];
 export default class extends Component<propsType, stateType>{
     constructor(props: Readonly<propsType>) {

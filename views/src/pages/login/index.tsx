@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { history } from 'umi'
 import { login, string } from '@/services/user'
 import './index.less'
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-};
+
 export default () => {
     const onFinish = async (values: any) => {
-        console.log('Success:', values);
-        await string(values)
+        let data = await login(values)
+        if (data.code === 200) {
+            window.localStorage.setItem('tokens', data.data.token)
+            history.replace('/')
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -29,24 +30,21 @@ export default () => {
         >
             <Form.Item
                 name="username"
-                rules={[{ required: true, message: 'Please input your username!' }]}
+                rules={[{ required: true, message: '請輸入帳號!' }]}
             >
                 <Input />
             </Form.Item>
 
             <Form.Item
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[{ required: true, message: '請輸入密碼!' }]}
             >
                 <Input.Password />
             </Form.Item>
 
             <Form.Item >
                 <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-                    Login
-        </Button>
-                <Button type="primary" onClick={() => test()} style={{ width: '100%' }}>
-                    xxx
+                    登錄
         </Button>
             </Form.Item>
         </Form>

@@ -1,1 +1,3 @@
-sequelize-auto -o "./models" -d yinyin -h 42.56.89.212 -u yinyin -p 3306 -x yinyin123 -e mysql -t yy_order
+sequelize-auto -o "./models" -d yinyin -h 42.56.89.212 -u yinyin -p 3306 -x yinyin123 -e mysql -t yy_facility
+
+koa-multer

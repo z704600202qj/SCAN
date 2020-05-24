@@ -5,34 +5,36 @@ const router = new Router({
   prefix: '/user'
 })
 
-
 router.post('/register', async (ctx, next) => {
   const { nickname, mobile, password } = ctx.request.body
-  let d = await User.createAccount(nickname, mobile, password)
-  ctx.body = new global.errs.Success(d)
+  try{
+    await ctx.check('mobile', '手機號格式不正確').isMobile()
+    var errors = ctx.validationErrors();
+    if (errors) {
+     return ctx.body = new global.errs.ParameterException(errors)
+    }
+    let d = await User.createAccount(nickname, mobile, password)
+    ctx.body = new global.errs.Success(d)
+  }catch(e){
+    ctx.body =e
+  }
+
 })
 router.post('/login', async (ctx, next) => {
   const { mobile, password } = ctx.request.body
-  await ctx.checkBody({
-    mobile: {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'mobile 不能为空',
-      },
-    },
-    password: {
-      notEmpty: {
-        options: [true],
-        errorMessage: 'password 不能为空',
-      },
-    }
-  })
+  await ctx.check('mobile', '手機號不能为空').notEmpty()
+  await ctx.check('password', '密碼不能为空').notEmpty()
+
   var errors = ctx.validationErrors();
   if (errors) {
    return ctx.body = new global.errs.ParameterException(errors)
   }
-  let d = await User.verifyPasswords(mobile, password)
-  ctx.body = new global.errs.Success(d)
+  try{
+    let d = await User.verifyPasswords(mobile, password)
+    ctx.body = new global.errs.Success(d,'登錄成功')
+  }catch(e){
+    ctx.body =e
+  }
 })
 
 module.exports = router

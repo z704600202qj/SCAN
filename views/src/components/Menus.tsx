@@ -85,7 +85,7 @@ class Sider extends React.Component {
                     key="sub2"
                     title={
                         <span className='sub-title'>
-                            <span>服務組織管理</span>
+                            <span>商戶門店管理</span>
                         </span>
                     }
                 >
@@ -96,13 +96,13 @@ class Sider extends React.Component {
                     key="sub3"
                     title={
                         <span className='sub-title'>
-                            <span>商品設置管理</span>
+                            <span>服務設置管理</span>
                         </span>
                     }
                 >
-                    <Menu.Item key="4">商品列表</Menu.Item>
-                    <Menu.Item key="5">商品類型</Menu.Item>
-                    <Menu.Item key="6">參數管理</Menu.Item>
+                    <Menu.Item key="4">服務列表</Menu.Item>
+                    <Menu.Item key="5">服務類型</Menu.Item>
+                    <Menu.Item key="6">設備管理</Menu.Item>
                 </SubMenu>
 
                 <Menu.Item key="7">優惠券管理</Menu.Item>
@@ -114,9 +114,9 @@ class Sider extends React.Component {
                         </span>
                     }
                 >
-                    <Menu.Item key="8">廣告管理</Menu.Item>
+                    <Menu.Item key="8">廣告詳情管理</Menu.Item>
                     <Menu.Item key="9">公告管理</Menu.Item>
-                    <Menu.Item key="11">价格管理</Menu.Item>
+                    <Menu.Item key="11">運營管理設置</Menu.Item>
                 </SubMenu>
                 <Menu.Item key="12">用戶管理</Menu.Item>
                 <Menu.Item key="13">管理員設置</Menu.Item>

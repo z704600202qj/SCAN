@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlobalModelType, connect, Dispatch, history } from 'umi';
-import { Tabs } from 'antd';
+import { Tabs,Button } from 'antd';
 import { SketchOutlined } from '@ant-design/icons';
 import routes from '../../config/routes'
 import './index.less'
@@ -72,7 +72,9 @@ const Layout = (props: propsType) => {
       }
     });
   }
-
+const goto=()=>{
+  history.replace('/login')
+}
   return (
     <div className='layout'>
       <div className='layout-header'>
@@ -93,6 +95,11 @@ const Layout = (props: propsType) => {
 
               ))}
             </Tabs>
+            <div className='header-right-handle'>
+              
+              <Button type="link" onClick={()=>goto()}>退出登錄</Button>
+
+            </div>
           </div>
         </div>
       </div>

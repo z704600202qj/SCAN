@@ -1,20 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jiangchong\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add sequelize
+  /usr/local/bin/node /usr/local/bin/yarn add sequelize-auto
 
 PATH: 
-  D:\shell\;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\VisualSVN Server\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\nodejs\;C:\Users\jiangchong\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\jiangchong\AppData\Roaming\npm;
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 Yarn version: 
-  1.16.0
+  1.19.1
 
 Node version: 
-  12.9.1
+  10.16.3
 
 Platform: 
-  win32 x64
+  darwin x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile 'C:\Users\jiangchong\AppData\Local\Yarn\Cache\v4\npm-kind-of-5.1.0-729c91e2d857b7a419a1f9aa65685c4c33f5845d\node_modules\kind-of\LICENSE' -> 'C:\Users\jiangchong\Desktop\scan\node_modules\define-property\node_modules\kind-of\LICENSE'
+  Error: EINVAL: invalid argument, unlink '/Users/zmc/Desktop/SCAN/node_modules/is-descriptor/node_modules/kind-of'
 
 npm manifest: 
   {
@@ -28,19 +28,27 @@ npm manifest:
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+      "basic-auth": "^2.0.1",
       "debug": "^4.1.1",
+      "jsonwebtoken": "^8.5.1",
       "koa": "^2.7.0",
       "koa-bodyparser": "^4.2.1",
       "koa-convert": "^1.2.0",
       "koa-json": "^2.0.2",
+      "koa-jwt": "^4.0.0",
       "koa-logger": "^3.2.0",
+      "koa-middle-validator": "^1.2.0",
       "koa-onerror": "^4.1.0",
       "koa-router": "^7.4.0",
       "koa-static": "^5.0.0",
       "koa-views": "^6.2.0",
-      "pug": "^2.0.3"
+      "mysql2": "^1.7.0",
+      "pug": "^2.0.3",
+      "require-directory": "^2.1.1",
+      "sequelize": "^5.19.8"
     },
     "devDependencies": {
+      "ms": "^2.1.2",
       "nodemon": "^1.19.1"
     }
   }

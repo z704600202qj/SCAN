@@ -7,31 +7,47 @@ const {
 const {
   sequelize
 } = require('../core/db')
+const {
+  generateToken
+} = require('../core/util');
 
 class User extends Model {
+  static async _findOne(mobile) {
+    let data = await User.findOne({
+      where: {
+        mobile
+      }
+    })
+    return data
+  }
   static async createAccount(nickname, mobile, password) {
+    let user = await this._findOne(mobile)
+    if (user) {
+      throw new global.errs.NotFound('账号已存在')
+    }
     let d = await User.create({
       nickname,
       mobile,
       password
     })
     return d
-
   }
   // 邮箱密码登录
   static async verifyPasswords(mobile, password) {
-    let user = await User.findOne({
-      where: {
-        mobile
-      }
-    })
+    // await 
+    let user = await this._findOne(mobile)
     if (!user) {
-      return new global.errs.NotFound('账号不存在')
+      throw new global.errs.NotFound('账号不存在')
     }
     if (user.password !== password) {
-      return global.errs.ParameterException('密码不正确')
+      throw global.errs.ParameterException('密码不正确')
     }
-    return user
+
+    const token = await generateToken(user.mobile, user.password);
+    return {
+      token: token,
+      mobile: user.mobile
+    }
   }
   static async getinfoById(id) {
     const user = await User.findOne({
@@ -73,8 +89,8 @@ User.init({
   },
 
 }, {
-  sequelize: sequelize,
   tableName: 'yy_user',
+  sequelize: sequelize,
   timestamps: true,
   createdAt: 'create_time',
   updatedAt: false,

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
-import { Form, Input, Button, DatePicker, Select } from 'antd';
+import { history} from 'umi'
+import { Form, Input, Button, Modal, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import './index.less';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
-
+const {TextArea}=Input
 interface StateType {
+    visible: boolean
 }
 interface PropsType { }
 
@@ -52,74 +54,86 @@ const columns = [
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+        this.state = {
+            visible: false
+        }
     }
     componentDidMount() {
     }
-
-
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+    detail=()=>{
+        history.push('/typeDetail')
+    }
     render() {
         return <div>
-            <Form layout='inline' style={{ marginBottom: 20 }} className='search-form'>
-                <Row>
-                    <Col >
-                        <Form.Item >
-                            <Input placeholder="類型名稱" />
-                        </Form.Item>
-                    </Col>
-                    <Col >
-                        <Form.Item >
-                            <Input placeholder="標籤" />
-                        </Form.Item>
-                    </Col>
-                    <Col >
-                        <Form.Item >
-                            <RangePicker placeholder={['起始时间', '截止时间']} />
 
-                        </Form.Item>
-                    </Col>
-                    <Col>
-                        <Form.Item >
-                            <Select defaultValue="lucy" placeholder='全部状态'>
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
-                                <Option value="Yiminghe">yiminghe</Option>
-                            </Select>
-                        </Form.Item>
-                    </Col>
-
-                    <Col>
-                        <Form.Item >
-                            <Button type="primary">Submit</Button>
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
-            <div className="site-card-wrapper">
+            <div style={{ margin: '10px 20px' }} className="site-card-wrapper">
                 <Row gutter={16}>
                     <Col span={8}>
-                        <Card title="Card title" actions={[<div className='btns'>查看</div>]} bordered={false}>
-                            Card content
-                            
+                        <Card title="自助列印服務" actions={[<div className='btns' onClick={()=>this.detail()}>詳情</div>, <div className='btns'>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
+                            FUJI系列自助列印商品
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card title="Card title"  actions={[<div className='btns'>查看</div>]} bordered={false}>
-                            Card content
+                        <Card title="自助列印服務" actions={[<div className='btns'>詳情</div>, <div className='btns'>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
+                            FUJI系列自助列印商品
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card title="Card title"  actions={[<div className='btns'>查看</div>]}  bordered={false}>
-                            Card content
+                        <Card title="自助列印服務" actions={[<div className='btns'>詳情</div>, <div className='btns'>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
+                            FUJI系列自助列印商品
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card bordered={false} style={{textAlign:"center"}}>
-                           <PlusOutlined/>
+                        <Card bordered={false} style={{ textAlign: "center" }} onClick={() => this.showModal()}>
+                            <PlusOutlined />
                         </Card>
                     </Col>
                 </Row>
             </div>
+            <Modal
+                title="添加服務類型"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+            >
+                <Form
+                    className='login-warp'
+                    name="basic"
+                    initialValues={{ remember: true }}
+                >
+                    <Form.Item
+                        label='服务类型'
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label='备注'
+                        name="username"
+                        rules={[{ required: true, message: 'Please input your username!' }]}
+                    >
+                        <TextArea />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     }
 }

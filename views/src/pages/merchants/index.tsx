@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
+import {history} from 'umi'
 import { Form, Input, Button, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -53,13 +54,15 @@ export default class extends Component<PropsType, StateType>{
     componentDidMount() {
     }
 
-
+goto(){
+    history.push('/merchantsDetails')
+}
     render() {
         return <div>
             <Form layout='inline' style={{ marginBottom: 20 }} className='search-form'>
                 <Row>
                     <Col style={{ marginRight: 20 }}>
-                        <Button type="primary" icon={<PlusOutlined />}> 添加商戶 </Button>
+                        <Button type="primary" icon={<PlusOutlined />} onClick={()=>this.goto()}> 添加商戶 </Button>
                     </Col>
                     <Col >
                         <Form.Item >
@@ -84,7 +87,8 @@ export default class extends Component<PropsType, StateType>{
 
                     <Col>
                         <Form.Item >
-                            <Button type="primary">Submit</Button>
+                            <Button type="primary">搜索</Button>
+                            <Button style={{marginLeft:15}}>重置</Button>
                         </Form.Item>
                     </Col>
                 </Row>

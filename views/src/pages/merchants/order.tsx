@@ -60,50 +60,6 @@ export default class extends Component<PropsType, StateType>{
 
     render() {
         return <Card >
-            <Form layout='inline'  {...formItemLayout} style={{ marginBottom: 20 }}>
-                <Row>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Input placeholder="input placeholder" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={3}>
-                        <Form.Item >
-                            <Button type="primary">Submit</Button>
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Form>
             <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
         </Card>
     }

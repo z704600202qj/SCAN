@@ -6,12 +6,22 @@ const router = new Router({
   prefix: '/admin'
 })
 router.post('/register', async (ctx, next) => {
-  const { username, password } = ctx.request.body
-  let d = await Admin.createAccount(username, password)
-  ctx.body = new global.errs.Success(d)
+  const {
+    username,
+    password
+  } = ctx.request.body
+  try {
+    let d = await Admin.createAccount(username, password)
+    ctx.body = new global.errs.Success(d)
+  } catch (e) {
+    ctx.body = e
+  }
 })
 router.post('/login', async (ctx, next) => {
-  const { username, password } = ctx.request.body
+  const {
+    username,
+    password
+  } = ctx.request.body
   await ctx.checkBody({
     username: {
       notEmpty: {
@@ -28,9 +38,13 @@ router.post('/login', async (ctx, next) => {
   })
   var errors = ctx.validationErrors();
   if (errors) {
-   return ctx.body = new global.errs.ParameterException(errors)
+    return ctx.body = new global.errs.ParameterException(errors)
   }
-  let d = await Admin.verifyPasswords(username, password)
-  ctx.body = new global.errs.Success(d)
+  try {
+    let d = await Admin.verifyPasswords(username, password)
+    ctx.body = new global.errs.Success(d, '登錄成功')
+  } catch (e) {
+    ctx.body = e
+  }
 })
 module.exports = router

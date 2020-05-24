@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Upload, Card } from 'antd';
 import { message, Input, Button, Radio } from 'antd';
-import Titles from './node_modules/@/components/Title'
+import Titles from '@/components/Title'
 
 import './index.less'
 interface StateType {

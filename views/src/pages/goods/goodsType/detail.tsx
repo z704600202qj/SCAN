@@ -1,30 +1,20 @@
 import React, { Component } from 'react';
-import { PageHeader, Descriptions, Card } from 'antd';
-import { message, Input, Button, Radio } from 'antd';
+import { Form, Input, Button, Modal, Descriptions, Card } from 'antd';
 import Titles from '@/components/Title'
 import Tables from '@/components/Tables'
 
 import './index.less'
 interface StateType {
-    select: string
+    visible: boolean
 }
 interface PropsType { }
+const {TextArea}=Input
 
 const columns = [
     {
-        title: '參數名稱',
+        title: '服務名稱',
         dataIndex: 'orderNO',
         key: 'orderNO',
-    },
-    {
-        title: '參數值',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
-    },
-    {
-        title: '備註',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
     },
     {
         title: '操作',
@@ -35,47 +25,83 @@ const columns = [
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+this.state={
+    visible:false
+}
     }
     componentDidMount() {
     }
 
-
+    create = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
     render() {
 
         return <div className='merchantsetails'>
-            <div style={{ background: "#fff" }}>
-                <PageHeader
-                    className="site-page-header"
-                    onBack={() => window.history.back()}
-                    title="商品組列表"
-                    extra={[
 
-                    ]}
-                >
-                    <Descriptions size="small" column={3}>
-                        <Descriptions.Item label="商品組名稱">商品組名稱</Descriptions.Item>
-
-                        <Descriptions.Item label="備註信息">2017-01-10</Descriptions.Item>
-                        <Descriptions.Item >
-                            <Button key="3">Operation</Button>
-                        </Descriptions.Item>
-                    </Descriptions>
-                </PageHeader>
-            </div>
-
-            <Card style={{ margin: '10px 20px' }} title='商品類型#0001' extra={<a href="#">編輯</a>} bordered={false}>
-                <Descriptions >
-                    <Descriptions.Item label="分類">自助服務</Descriptions.Item>
-                    <Descriptions.Item label="標籤">1810000000</Descriptions.Item>
-                    <Descriptions.Item label="類型名稱">自助列印#001-FUJI xerox M28通用</Descriptions.Item>
-                    <Descriptions.Item label="備註">empty</Descriptions.Item>
-
-                </Descriptions>
-  商品參數:
-  <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+            <Card style={{ margin: '10px 20px' }} title='設備詳情#0001' extra={<Button onClick={() => this.create()}>添加服務</Button>} bordered={false}>
+                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
 
             </Card>
+            <Modal
+                title="添加服務"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+            >
+                <Form
+                    className='login-warp'
+                    name="basic"
+                    initialValues={{ remember: true }}
+                >
+                    <Form.Item
+                        label='名稱'
+                        name="username"
+                        rules={[{ required: true, message: '請輸入名稱' }]}
+                    >
+                        <Input placeholder='請輸入名稱' />
+                    </Form.Item>
+                    <Form.Item
+                        label='商品參數'
+                        name="username"
+                    >
+                      A4
+                    </Form.Item>
+                    <Form.Item
+                        label='黑白'
+                        name="username"
+                    >
+                       <Input placeholder='請輸入名稱' style={{width:'80%'}} />  元/面
+                    </Form.Item>
+                    <Form.Item
+                        label='彩色'
+                        name="username"
+                    >
+                        <Input placeholder='請輸入名稱' style={{width:'80%'}} />  元/面
+                    </Form.Item>
+                    <Form.Item
+                        label='關聯設備'
+                        name="username"
+                        rules={[{ required: true, message: '請輸入備註!' }]}
+                    >
+                        <TextArea placeholder='請輸入備註' />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     }
 }

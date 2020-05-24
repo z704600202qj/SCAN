@@ -63,9 +63,6 @@ export default class extends Component<PropsType, StateType>{
         return <>
             <Form layout='inline' style={{ marginBottom: 20 }}  className='search-form'>
                 <Row>
-                    <Col style={{ marginRight: 20 }}>
-                        <Button type="primary" icon={<PlusOutlined />}> 添加門店 </Button>
-                    </Col>
                     <Col >
                         <Form.Item >
                             <Input placeholder="門店編號/門店名稱" />
@@ -89,7 +86,8 @@ export default class extends Component<PropsType, StateType>{
 
                     <Col>
                         <Form.Item >
-                            <Button type="primary">Submit</Button>
+                            <Button type="primary">搜索</Button>
+                            <Button style={{marginLeft:15}}>重置</Button>
                         </Form.Item>
                     </Col>
                 </Row>

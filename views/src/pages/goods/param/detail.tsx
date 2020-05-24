@@ -1,33 +1,94 @@
 import React, { Component } from 'react';
-import { Row, Upload, Card } from 'antd';
-import { message, Input, Button, Radio } from 'antd';
+import { Form, Input, Button, Modal, Descriptions, Card } from 'antd';
 import Titles from '@/components/Title'
+import Tables from '@/components/Tables'
 
 import './index.less'
 interface StateType {
-    select: string
+    visible: boolean
 }
 interface PropsType { }
+const {TextArea}=Input
 
-
+const columns = [
+    {
+        title: '裝置名稱',
+        dataIndex: 'orderNO',
+        key: 'orderNO',
+    },
+    {
+        title: '備註',
+        dataIndex: 'orderNO',
+        key: 'orderNO',
+    },
+    {
+        title: '操作',
+        dataIndex: 'orderTime',
+        key: 'orderTime',
+    },
+]
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+this.state={
+    visible:false
+}
     }
     componentDidMount() {
     }
 
-
+    create = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
     render() {
 
         return <div className='merchantsetails'>
-            <Titles>
-                <div style={{position:"absolute"}}>參數詳情</div>
-                <div></div>
-            </Titles>
-            <Card style={{ margin: '10px 20px' }} bordered={false}>
+
+            <Card style={{ margin: '10px 20px' }} title='設備詳情#0001' extra={<Button onClick={() => this.create()}>添加裝置</Button>} bordered={false}>
+                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+
             </Card>
+            <Modal
+                title="添加裝置"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+            >
+                <Form
+                    className='login-warp'
+                    name="basic"
+                    initialValues={{ remember: true }}
+                >
+                    <Form.Item
+                        label='名稱'
+                        name="username"
+                        rules={[{ required: true, message: '請輸入名稱' }]}
+                    >
+                        <Input placeholder='請輸入名稱' />
+                    </Form.Item>
+                    <Form.Item
+                        label='备注'
+                        name="username"
+                        rules={[{ required: true, message: '請輸入備註!' }]}
+                    >
+                        <TextArea placeholder='請輸入備註' />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     }
 }

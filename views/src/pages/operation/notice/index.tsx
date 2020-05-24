@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
 import { Form, Input, Button, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
+import {history} from 'umi'
 import './index.less'
 import Tables from '@/components/Tables'
 interface StateType {
@@ -46,20 +46,31 @@ export default class extends Component<PropsType, StateType>{
     componentDidMount() {
     }
 
-
+    goto = () => {
+        history.push('/noticeDetail')
+    }
     render() {
         return <div>
-            <Card bordered={false} style={{ margin: '10px 20px' }}>
-                <Row align='middle' style={{marginBottom:10}}>
+            <Form layout='inline' style={{ marginBottom: 20 }} className='search-form'>
+                <Row>
                     <Col style={{ marginRight: 20 }}>
-                        公告列表
+                        <Button type="primary" icon={<PlusOutlined />} onClick={() => this.goto()}> 新建公告 </Button>
                     </Col>
-                    <Col span={4}>
-                        <Button type="primary">新建</Button>
+
+                    <Col >
+                        <Form.Item >
+                            <RangePicker placeholder={['起始时间', '截止时间']} />
+                        </Form.Item>
+                    </Col>
+                    <Col>
+                        <Form.Item >
+                            <Button type="primary">搜索</Button>
+                            <Button style={{ marginLeft: 15 }}>重置</Button>
+                        </Form.Item>
                     </Col>
                 </Row>
-
-
+            </Form>
+            <Card bordered={false} style={{ margin: '10px 20px' }}>
                 <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
             </Card>
         </div>

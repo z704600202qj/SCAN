@@ -33,7 +33,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       User.create(params).then( res => {
         let data = res
-        console.log(data)
         resolve(data)
       }).catch(err => {
         reject(err)

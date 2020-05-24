@@ -4,6 +4,14 @@ const { generateToken } = require('../core/util');
 
 class Admin extends Model {
   static async createAccount(username, password) {
+    let user = await Admin.findOne({
+      where: {
+        username
+      }
+    })
+    if (user) {
+      throw new global.errs.NotFound('账号已存在')
+    }
     let d = await Admin.create({ username, password })
     return d
   }
@@ -15,10 +23,10 @@ class Admin extends Model {
       }
     })
     if (!user) {
-      return new global.errs.NotFound('账号不存在')
+      throw new global.errs.NotFound('账号不存在')
     }
     if (user.password !== password) {
-      return global.errs.ParameterException('密码不正确')
+      throw new global.errs.ParameterException('密码不正确')
     }
     const token = await generateToken(user.username, user.password);
     return {token}

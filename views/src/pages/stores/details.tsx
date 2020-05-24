@@ -16,27 +16,39 @@ interface PropsType { }
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+        this.state = {
+            select: 'a'
+        }
     }
     componentDidMount() {
     }
 
-
+    radioChange = ({ target: { value } }: { target: { value: string } }) => {
+        this.setState(({
+            select: value
+        }))
+    }
     render() {
-
+        const { select } = this.state
         return <div className='merchantsetails'>
-             <Titles>
-                <div style={{position:"absolute"}}>門店詳情</div>
-                <Radio.Group defaultValue="a" buttonStyle="solid">
+            <Titles>
+                <div style={{ position: "absolute" }}>門店詳情</div>
+                <Radio.Group value={select} onChange={(e: any) => this.radioChange(e)} buttonStyle="solid">
                     <Radio.Button value="a">基本信息</Radio.Button>
                     <Radio.Button value="b">門店商品</Radio.Button>
                     <Radio.Button value="c">服務記錄</Radio.Button>
                 </Radio.Group>
             </Titles>
-            <Card  style={{ margin: '10px 20px' }}  bordered={false}>
-                {/* <BaseInfo/> */}
-                {/* <GoodsList/> */}
-                <List/>
+            <Card style={{ margin: '10px 20px' }} bordered={false}>
+                {
+                    select==='a'&&<BaseInfo/> 
+                }
+                  {
+                    select==='b'&&<GoodsList/> 
+                }
+                  {
+                    select==='c'&&<List/> 
+                }
             </Card>
         </div>
     }

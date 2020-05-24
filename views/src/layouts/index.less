@@ -1,28 +1,35 @@
 .header-content {
+  height: 64px;
+  width: 100%;
+  overflow: hidden;
+
+  .header-logo {
+    float: left;
+
+    width: 223px;
     height: 64px;
-    width: 100%;
-    overflow: hidden;
+    background: rgba(0, 40, 77, 1);
+  }
 
-    .header-logo {
-        float: left;
+  .header-right {
+    height: 64px;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid #ccc;
+    justify-content: space-between;
 
-        width: 223px;
-        height: 64px;
-        background: rgba(0, 40, 77, 1);
+    .ant-tabs {
+      width: 900px;
     }
 
-    .header-right {
-        height: 64px;
-        display: flex;
-        align-items: flex-end;
-        border-bottom: 1px solid #ccc;
-
-        .ant-tabs {
-            width: 900px;
-        }
+    .header-right-handle {
+      margin-right: 20px;
+      height: 64px;
+      line-height: 64px;
     }
+  }
 
-    .ant-tabs-bar {
-        margin: 0 25px;
-    }
+  .ant-tabs-bar {
+    margin: 0 25px;
+  }
 }

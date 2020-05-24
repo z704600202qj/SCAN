@@ -73,7 +73,6 @@ export default class extends Component<PropsType, StateType>{
                     <Col >
                         <Form.Item >
                             <RangePicker placeholder={['起始时间', '截止时间']} />
-
                         </Form.Item>
                     </Col>
                     <Col>
@@ -88,7 +87,8 @@ export default class extends Component<PropsType, StateType>{
 
                     <Col>
                         <Form.Item >
-                            <Button type="primary">Submit</Button>
+                        <Button type="primary">搜索</Button>
+                            <Button style={{marginLeft:15}}>重置</Button>
                         </Form.Item>
                     </Col>
                 </Row>

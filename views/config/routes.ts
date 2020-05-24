@@ -27,18 +27,19 @@ let arr = [
             { path: '/goodsListDetail', component: 'goods/goodsList/detail', title: '商品详情', key: '4-1', parent: 'sub3' },
             { path: '/typeList', component: 'goods/goodsType', title: '商品類型', key: '5', parent: 'sub3' },
             { path: '/typeDetail', component: 'goods/goodsType/detail', title: '商品類型', key: '5-1', parent: 'sub3' },
-            { path: '/paramList', component: 'goods/param', title: '參數管理', key: '6', parent: 'sub3' },
-            { path: '/paramDetail', component: 'goods/param/detail', title: '參數詳情', key: '6-1', parent: 'sub3' },
+            { path: '/paramList', component: 'goods/param', title: '設備管理', key: '6', parent: 'sub3' },
+            { path: '/paramDetail', component: 'goods/param/detail', title: '設備詳情', key: '6-1', parent: 'sub3' },
 
             { path: '/coupons', component: 'coupons', title: '優惠券設置', key: '7', parent: '' },
             { path: '/couponsDetail', component: 'coupons/detail', title: '優惠券設置', key: '7-1', parent: '' },
 
-            { path: '/adMg', component: 'operation/adMg', title: '廣告管理', key: '8', parent: 'sub4' },
-            { path: '/adMgDetail', component: 'operation/adMg/detail', title: '廣告管理詳情', key: '8-1', parent: 'sub4' },
+            { path: '/adMg', component: 'operation/adMg/detail', title: '廣告詳情管理', key: '8', parent: 'sub4' },
             { path: '/notice', component: 'operation/notice', title: '公告管理', key: '9', parent: 'sub4' },
-            { path: '/qa', component: 'operation/adMg/qa', title: '運營管理設置', key: '10', parent: 'sub4' },
-            { path: '/price', component: 'operation/price', title: '價格設置', key: '11', parent: 'sub4' },
-            { path: '/priceDetail', component: 'operation/price/details', title: '价格詳情', key: '11-1', parent: 'sub4' },
+            { path: '/noticeDetail', component: 'operation/notice/create', title: '新建公告', key: '9-1', parent: 'sub4' },
+
+            { path: '/qa', component: 'operation/adMg/qa', title: '運營管理設置', key: '11', parent: 'sub4' },
+            // { path: '/price', component: 'operation/price', title: '價格設置', key: '10', parent: 'sub4' },
+            // { path: '/priceDetail', component: 'operation/price/details', title: '价格詳情', key: '11-1', parent: 'sub4' },
 
             { path: '/userList', component: 'userList', title: '用戶管理', key: '12', parent: '' },
             { path: '/userDetail', component: 'userList/detail', title: '用戶詳情', key: '12-1', parent: '' },
