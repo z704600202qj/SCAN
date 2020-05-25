@@ -1,10 +1,9 @@
 /* jshint indent: 2 */
-const {DataTypes, Model} = require('sequelize')
-const { sequelize} = require('../core/db')
-class yy_notice extends Model{
-  
+const { Model, DataTypes } = require('sequelize')
+const { sequelize } = require('../core/db')
+class yy_banner extends Model {
   static async getData(size, page = 1, arg) {
-    let data = await yy_notice.findAndCountAll({
+    let data = await yy_banner.findAndCountAll({
       where: { ...arg },
       limit: size || 10,//返回个数
       offset: size * (page - 1) || 0,//起始位置,跳过数量
@@ -17,17 +16,18 @@ class yy_notice extends Model{
       pageSize: Math.ceil(data.count / size)
     }
   }
-  static async createData(title, content) {
-    let data = await yy_notice.create({
-      title,
-      content
+  static async createData(pic_path, is_linker,link) {
+    let data = await yy_banner.create({
+      pic_path,
+      is_linker,
+      link
     })
     return data
   }
   static async editData(id, query) {
-    let data = await yy_notice.update(query, {
+    let data = await yy_banner.update(query, {
       where: {
-        nid: id
+        bid: id
       }
     });
     if (data[0] === 0) {
@@ -35,43 +35,41 @@ class yy_notice extends Model{
     }
   }
   static async delData(id) {
-    let data = await yy_notice.destroy({
+    let data = await yy_banner.destroy({
       where: {
-        nid: id
+        bid: id
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('nid不存在')
+      throw new global.errs.NotFound('bid不存在')
     }
   }
 }
-yy_notice.init({
-  nid: {
+yy_banner.init({
+  bid: {
     type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
-  title: {
-    type: DataTypes.STRING(64),
+  pic_path: {
+    type: DataTypes.STRING(255),
     allowNull: false,
     defaultValue: ''
   },
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  create_time: {
-    type: DataTypes.INTEGER(11).UNSIGNED,
+  is_linker: {
+    type: DataTypes.ENUM('1', '2'),
     allowNull: false,
-    defaultValue: '0'
+    defaultValue: '1'
+  },
+  link: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    defaultValue: ''
   }
 }, {
-  tableName: 'yy_notice',
+  tableName: 'yy_banner',
   sequelize: sequelize,
-  timestamps: true,
-  createdAt: 'create_time',
-  updatedAt: false,
-  deletedAt: false
+  timestamps: false,
 })
-module.exports = yy_notice
+module.exports = yy_banner

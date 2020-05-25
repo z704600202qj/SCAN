@@ -1,8 +1,6 @@
 /* jshint indent: 2 */
 const { Model, DataTypes } = require('sequelize')
-const {
-  sequelize
-} = require('../core/db')
+const {sequelize} = require('../core/db')
 class Brand extends Model {
 }
 Brand.init({

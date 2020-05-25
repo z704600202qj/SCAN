@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox,message } from 'antd';
 import { history } from 'umi'
 import { login, string } from '@/services/user'
 import './index.less'
@@ -10,6 +10,7 @@ export default () => {
         if (data.code === 200) {
             window.localStorage.setItem('tokens', data.data.token)
             history.replace('/')
+            message.success(data.msg)
         }
     };
 

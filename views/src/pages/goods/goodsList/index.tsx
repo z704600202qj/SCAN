@@ -10,37 +10,22 @@ interface PropsType { }
 
 const columns = [
     {
-        title: '商品編號',
+        title: '服務編號',
         dataIndex: 'orderNO',
         key: 'orderNO',
     },
     {
-        title: '商品名称',
+        title: '服務類型',
         dataIndex: 'orderNO',
         key: 'orderNO',
     },
     {
-        title: '商品類型',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '所属门店',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '所屬商戶',
+        title: '服務名稱',
         dataIndex: 'orderTime',
         key: 'orderTime',
     },
     {
         title: '創建日期',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '當前狀態',
         dataIndex: 'orderTime',
         key: 'orderTime',
     },
@@ -69,12 +54,7 @@ export default class extends Component<PropsType, StateType>{
                 <Row>
                     <Col span={7}>
                         <Form.Item >
-                            <Input placeholder="編號或名稱" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={7}>
-                        <Form.Item >
-                            <Input placeholder="當前狀態" />
+                            <Input placeholder="服務名稱" />
                         </Form.Item>
                     </Col>
                     <Col span={7}>

@@ -1,14 +1,11 @@
 /* jshint indent: 2 */
-/* jshint indent: 2 */
-const {
-  DataTypes,
-  Model
-} = require('sequelize')
-
-const {
-  sequelize
-} = require('../core/db')
+const {DataTypes, Model} = require('sequelize')
+const {sequelize} = require('../core/db')
 class yy_facility extends Model {
+  static async getData() {
+    let data = await yy_facility.findAll()
+    return data
+  }
   static async createData(title, remark) {
     let data = await yy_facility.create({
       title,

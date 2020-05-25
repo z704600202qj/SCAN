@@ -1,55 +1,19 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
-import { history} from 'umi'
+import { history } from 'umi'
 import { Form, Input, Button, Modal, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import './index.less';
+import { server_type } from '@/services/serviceMg'
 
 const { RangePicker } = DatePicker;
-const { Option } = Select;
-const {TextArea}=Input
+const { TextArea } = Input
 interface StateType {
     visible: boolean
 }
 interface PropsType { }
 
-const columns = [
-    {
-        title: '門店編號',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
-    },
-    {
-        title: '門店名稱',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
-    },
-    {
-        title: '所屬地區',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '地址',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '創建日期',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '當前狀態',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-    {
-        title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-]
+
 
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
@@ -59,6 +23,11 @@ export default class extends Component<PropsType, StateType>{
         }
     }
     componentDidMount() {
+        this.getData()
+    }
+    async getData() {
+        let { data } = await server_type()
+        console.log(data)
     }
     showModal = () => {
         this.setState({
@@ -77,7 +46,7 @@ export default class extends Component<PropsType, StateType>{
             visible: false,
         });
     };
-    detail=()=>{
+    detail = () => {
         history.push('/typeDetail')
     }
     render() {
@@ -86,7 +55,7 @@ export default class extends Component<PropsType, StateType>{
             <div style={{ margin: '10px 20px' }} className="site-card-wrapper">
                 <Row gutter={16}>
                     <Col span={8}>
-                        <Card title="自助列印服務" actions={[<div className='btns' onClick={()=>this.detail()}>詳情</div>, <div className='btns'>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
+                        <Card title="自助列印服務" actions={[<div className='btns' onClick={() => this.detail()}>詳情</div>, <div className='btns'>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
                             FUJI系列自助列印商品
                         </Card>
                     </Col>

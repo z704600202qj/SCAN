@@ -25,8 +25,8 @@ let arr = [
 
             { path: '/goodsList', component: 'goods/goodsList', title: '商品列表', key: '4', parent: 'sub3' },
             { path: '/goodsListDetail', component: 'goods/goodsList/detail', title: '商品详情', key: '4-1', parent: 'sub3' },
-            { path: '/typeList', component: 'goods/goodsType', title: '商品類型', key: '5', parent: 'sub3' },
-            { path: '/typeDetail', component: 'goods/goodsType/detail', title: '商品類型', key: '5-1', parent: 'sub3' },
+            { path: '/typeList', component: 'goods/goodsType', title: '服务類型', key: '5', parent: 'sub3' },
+            { path: '/typeDetail', component: 'goods/goodsType/detail', title: '服务類型', key: '5-1', parent: 'sub3' },
             { path: '/paramList', component: 'goods/param', title: '設備管理', key: '6', parent: 'sub3' },
             { path: '/paramDetail', component: 'goods/param/detail', title: '設備詳情', key: '6-1', parent: 'sub3' },
 

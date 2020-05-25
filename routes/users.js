@@ -7,18 +7,17 @@ const router = new Router({
 
 router.post('/register', async (ctx, next) => {
   const { nickname, mobile, password } = ctx.request.body
-  try{
+  try {
     await ctx.check('mobile', '手機號格式不正確').isMobile()
     var errors = ctx.validationErrors();
     if (errors) {
-     return ctx.body = new global.errs.ParameterException(errors)
+      return ctx.body = new global.errs.ParameterException(errors)
     }
     let d = await User.createAccount(nickname, mobile, password)
     ctx.body = new global.errs.Success(d)
-  }catch(e){
-    ctx.body =e
+  } catch (e) {
+    ctx.body = e
   }
-
 })
 router.post('/login', async (ctx, next) => {
   const { mobile, password } = ctx.request.body
@@ -27,13 +26,13 @@ router.post('/login', async (ctx, next) => {
 
   var errors = ctx.validationErrors();
   if (errors) {
-   return ctx.body = new global.errs.ParameterException(errors)
+    return ctx.body = new global.errs.ParameterException(errors)
   }
-  try{
+  try {
     let d = await User.verifyPasswords(mobile, password)
-    ctx.body = new global.errs.Success(d,'登錄成功')
-  }catch(e){
-    ctx.body =e
+    ctx.body = new global.errs.Success(d, '登錄成功')
+  } catch (e) {
+    ctx.body = e
   }
 })
 
