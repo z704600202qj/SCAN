@@ -1,21 +1,15 @@
 /* jshint indent: 2 */
-const {
-  DataTypes,
-  Model
-} = require('sequelize')
-
-const {
-  sequelize
-} = require('../core/db')
+const {DataTypes, Model} = require('sequelize')
+const {sequelize} = require('../core/db')
 class yy_server_type extends Model{
   static async getData() {
     let data = await yy_server_type.findAll()
     return data
   }
-  static async createData(type, remark) {
+  static async createData(type, arg) {
     let data = await yy_server_type.create({
       type,
-      remark
+      ...arg
     })
     return data
   }
@@ -36,7 +30,7 @@ class yy_server_type extends Model{
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('stid不存在')
+      throw new global.errs.NotFound('删除失败')
     }
   }
 }

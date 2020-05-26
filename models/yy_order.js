@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 const { Model, DataTypes } = require('sequelize')
 const { User } = require('./yy_user')
-const {Brand} = require('./yy_brand')
+const Brand = require('./yy_brand')
 
 const {
   sequelize

@@ -16,10 +16,10 @@ router.get('/', async (ctx, next) => {
 router.post('/create', async (ctx, next) => {
     const {
         type,
-        remark
+        ...arg
     } = ctx.request.body
     try {
-        let d = await serverType.createData(type, remark)
+        let d = await serverType.createData(type, arg)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e
