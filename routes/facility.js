@@ -44,4 +44,13 @@ router.post('/edit', async (ctx, next) => {
         ctx.body = e
     }
 })
+router.post('/del', async (ctx, next) => {
+    const { fid, } = ctx.request.body
+    try {
+        let d = await Facility.delData(fid)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e
+    }
+})
 module.exports = router

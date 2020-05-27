@@ -19,6 +19,16 @@ class yy_facility extends Model {
     })
     return data
   }
+  static async delData(fid){
+    let data = await yy_facility.destroy({
+      where: {
+        fid
+      }
+    });
+    if (data[0] === 0) {
+      throw new global.errs.NotFound('删除不成功')
+    }
+  }
   static async editData(id, query) {
     let data = await yy_facility.update(query, {
       where: {
@@ -26,7 +36,7 @@ class yy_facility extends Model {
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('fid不存在')
+      throw new global.errs.NotFound('编辑不成功')
     }
   }
 }

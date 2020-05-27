@@ -53,7 +53,7 @@ this.state={
 
         return <div className='merchantsetails'>
 
-            <Card style={{ margin: '10px 20px' }} title='設備詳情#0001' extra={<Button onClick={() => this.create()}>添加服務</Button>} bordered={false}>
+            <Card style={{ margin: '10px 20px' }} title='服務類型详情' extra={<Button onClick={() => this.create()}>添加服務</Button>} bordered={false}>
                 <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
 
             </Card>

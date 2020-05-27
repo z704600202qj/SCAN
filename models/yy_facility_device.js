@@ -29,7 +29,7 @@ class yy_facility_device extends Model {
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('fdid不存在')
+      throw new global.errs.NotFound('编辑不成功')
     }
   }
   static async delData(id) {
@@ -39,7 +39,7 @@ class yy_facility_device extends Model {
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('fdid不存在')
+      throw new global.errs.NotFound('删除不成功')
     }
   }
 }

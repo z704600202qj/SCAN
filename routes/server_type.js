@@ -14,10 +14,7 @@ router.get('/', async (ctx, next) => {
     }
 })
 router.post('/create', async (ctx, next) => {
-    const {
-        type,
-        ...arg
-    } = ctx.request.body
+    const {type, ...arg} = ctx.request.body
     try {
         let d = await serverType.createData(type, arg)
         ctx.body = await new global.errs.Success(d)

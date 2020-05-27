@@ -3,8 +3,10 @@ import { Row, Col, Card } from 'antd';
 import { history } from 'umi'
 import { Form, Input, Button, Modal, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { FormInstance } from 'antd/lib/form';
+
 import './index.less';
-import { facility } from '@/services/serviceMg'
+import { facility, facilitycreate, facilitydel, facilityedit } from '@/services/serviceMg'
 const { TextArea } = Input
 interface StateType {
     visible: boolean,
@@ -17,6 +19,8 @@ interface StateType {
 interface PropsType { }
 
 export default class extends Component<PropsType, StateType>{
+    formRef = React.createRef<FormInstance>();
+
     constructor(props: Readonly<PropsType>) {
         super(props)
         this.state = {
@@ -37,14 +41,33 @@ export default class extends Component<PropsType, StateType>{
     showModal = () => {
         this.setState({
             visible: true,
-            desc:{}
+            desc: {}
         });
     };
     handleOk = () => {
-        this.setState({
-            visible: false,
-        });
+        const { current }: any = this.formRef
+        const { desc }:any = this.state
+        let obj = current.getFieldsValue()
+        current.submit()
+        if (obj.title && obj.remark) {
+            this.setState({
+                visible: false,
+            }, async () => {
+                if (Object.keys(desc).length === 0) {
+                    await facilitycreate(obj)
+                } else {
+                    await facilityedit({ ...obj, fid: desc.fid })
+                }
+                await this.getData()
+                await current.resetFields()
+            });
+
+        }
     };
+    del = async (fid: string) => {
+        await facilitydel({ fid })
+        await this.getData()
+    }
     handleCancel = () => {
         this.setState({
             visible: false,
@@ -65,6 +88,7 @@ export default class extends Component<PropsType, StateType>{
         });
     }
     render() {
+
         const { list, desc } = this.state
         return <div>
 
@@ -72,8 +96,10 @@ export default class extends Component<PropsType, StateType>{
                 <Row gutter={16}>
                     {
                         list.map((item) => <Col span={8} key={item.fid} >
-                            <Card title={item.title} actions={[<div className='btns' onClick={() => this.detail(item.fid)}>詳情</div>, <div className='btns' onClick={() => this.edits(item)}>編輯</div>, <div className='btns'>刪除</div>]} bordered={false}>
-                                {item.remark}
+                            <Card title={item.title} actions={[<div className='btns' onClick={() => this.detail(item.fid)}>詳情</div>, <div className='btns' onClick={() => this.edits(item)}>編輯</div>, <div className='btns' onClick={() => this.del(item.fid)}>刪除</div>]} bordered={false}>
+                            key：{item.key_str} <br/>
+                            密钥：{item.secret_key} <br/>
+                            备注：{item.remark}
                             </Card>
                         </Col>)
                     }
@@ -85,7 +111,7 @@ export default class extends Component<PropsType, StateType>{
                 </Row>
             </div>
             <Modal
-                title={Object.keys(desc).length===0?"添加設備":'修改設備'}
+                title={Object.keys(desc).length === 0 ? "添加設備" : '修改設備'}
                 visible={this.state.visible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
@@ -93,7 +119,7 @@ export default class extends Component<PropsType, StateType>{
                 <Form
                     className='login-warp'
                     name="basic"
-
+                    ref={this.formRef}
                     initialValues={desc}
                 >
                     <Form.Item

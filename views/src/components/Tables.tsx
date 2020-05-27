@@ -6,7 +6,7 @@ interface propsType {
     columns: Array<object>,
     data: Array<object>,
     rowKey: string,
-    list: {
+    list?: {
         totalNum:number,
         totalPage:number,
     },
