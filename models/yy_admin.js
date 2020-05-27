@@ -29,7 +29,7 @@ class Admin extends Model {
       throw new global.errs.ParameterException('密码不正确')
     }
     const token = await generateToken(user.username, user.password);
-    return {token}
+    return {token,username:user.username}
   }
 
 }

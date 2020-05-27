@@ -1,15 +1,21 @@
 /* jshint indent: 2 */
 const {DataTypes, Model} = require('sequelize')
 const {sequelize} = require('../core/db')
+const random = require('string-random');
+
 class yy_facility extends Model {
   static async getData() {
     let data = await yy_facility.findAll()
     return data
   }
   static async createData(title, remark) {
+    let key_str=random(16, {letters: 'ABCDEFG'})
+    let secret_key=random(16, {letters: 'HIGKLMN'})
     let data = await yy_facility.create({
       title,
-      remark
+      remark,
+      key_str,
+      secret_key
     })
     return data
   }
@@ -40,7 +46,17 @@ yy_facility.init({
     type: DataTypes.STRING(666),
     allowNull: false,
     defaultValue: ''
-  }
+  },
+  key_str: {
+    type: DataTypes.STRING(32),
+    allowNull: false,
+    defaultValue: ''
+  },
+  secret_key: {
+    type: DataTypes.STRING(32),
+    allowNull: false,
+    defaultValue: ''
+  },
 }, {
   tableName: 'yy_facility',
   sequelize: sequelize,

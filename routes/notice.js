@@ -23,6 +23,15 @@ router.post('/create', async (ctx, next) => {
         ctx.body = e
     }
 })
+router.post('/detail', async (ctx, next) => {
+    const {nid} = ctx.request.body
+    try {
+        let d = await Notice.detailData(nid)
+        ctx.body =await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e
+    }
+})
 router.post('/edit', async (ctx, next) => {
     const {nid,...arg} = ctx.request.body
     try {

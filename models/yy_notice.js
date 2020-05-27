@@ -1,8 +1,8 @@
 /* jshint indent: 2 */
-const {DataTypes, Model} = require('sequelize')
-const { sequelize} = require('../core/db')
-class yy_notice extends Model{
-  
+const { DataTypes, Model } = require('sequelize')
+const { sequelize } = require('../core/db')
+class yy_notice extends Model {
+
   static async getData(size, page = 1, arg) {
     let data = await yy_notice.findAndCountAll({
       where: { ...arg },
@@ -24,6 +24,15 @@ class yy_notice extends Model{
     })
     return data
   }
+  static async detailData(nid) {
+    let data = await yy_notice.findOne({
+      where: {
+        nid
+      }
+    })
+    return data
+  }
+
   static async editData(id, query) {
     let data = await yy_notice.update(query, {
       where: {
@@ -61,11 +70,6 @@ yy_notice.init({
     type: DataTypes.TEXT,
     allowNull: false
   },
-  create_time: {
-    type: DataTypes.INTEGER(11).UNSIGNED,
-    allowNull: false,
-    defaultValue: '0'
-  }
 }, {
   tableName: 'yy_notice',
   sequelize: sequelize,

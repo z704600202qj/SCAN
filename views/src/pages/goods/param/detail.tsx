@@ -8,7 +8,7 @@ interface StateType {
     visible: boolean
 }
 interface PropsType { }
-const {TextArea}=Input
+const { TextArea } = Input
 
 const columns = [
     {
@@ -30,9 +30,9 @@ const columns = [
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-this.state={
-    visible:false
-}
+        this.state = {
+            visible: false
+        }
     }
     componentDidMount() {
     }

@@ -14,6 +14,15 @@ router.post('/', async (ctx, next) => {
         ctx.body = e || []
     }
 })
+router.post('/detail', async (ctx, next) => {
+    try {
+        const { cid } = ctx.request.body
+        let d = await coupon.getDetail(cid)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e || []
+    }
+})
 router.post('/create', async (ctx, next) => {
     const { redeem, ...arg } = ctx.request.body
     try {

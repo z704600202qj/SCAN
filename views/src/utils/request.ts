@@ -81,14 +81,12 @@ switch (process.env.NODE_ENV) {
 }
 //request.js
 const request = async function (opt: any) {
-    let data: any = localStorage.getItem('userInfo')
-    const { userId } = data ? JSON.parse(data) : { userId: '' }
     let options: any
     try {
         options = Object.assign({
             method: 'get',
             ifHandleError: true, // 是否统一处理接口失败(提示)
-            isUserId: true // 是否需要UserId
+            ifHandleOk: false // 
         }, opt);
         // 匹配接口前缀 开发环境则通过proxy配置转发请求； 生产环境根据实际配置
         options.baseURL = baseUrl;
@@ -98,6 +96,9 @@ const request = async function (opt: any) {
      
         if (res.code !== 200 && options.ifHandleError) { // 自定义参数，是否允许全局提示错误信息
             message.error(res.msg || '请求处理失败！');
+        }
+        if (res.code === 200 && options.ifHandleOk) { // 自定义参数，是否允许全局提示错误信息
+            message.success(res.msg || '操作成功');
         }
         return res;
     } catch (err) {

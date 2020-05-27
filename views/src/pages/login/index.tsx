@@ -9,6 +9,7 @@ export default () => {
         let data = await login(values)
         if (data.code === 200) {
             window.localStorage.setItem('tokens', data.data.token)
+            window.localStorage.setItem('username', data.data.username)
             history.replace('/')
             message.success(data.msg)
         }

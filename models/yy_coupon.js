@@ -16,6 +16,15 @@ class yy_coupon extends Model {
       pageSize: Math.ceil(data.count / size)
     }
   }
+
+static async getDetail(cid){
+  let data = await yy_coupon.findOne({
+    where: {
+      cid
+    }
+  })
+  return data
+}
   static async createData(redeem, arg) {
     let data = await yy_coupon.create({
       redeem,

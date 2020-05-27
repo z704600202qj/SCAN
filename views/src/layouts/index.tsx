@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlobalModelType, connect, Dispatch, history } from 'umi';
-import { Tabs,Button } from 'antd';
+import { Tabs, Button } from 'antd';
 import { SketchOutlined } from '@ant-design/icons';
 import routes from '../../config/routes'
 import './index.less'
@@ -14,9 +14,12 @@ interface propsType {
 const Layout = (props: propsType) => {
   const { children } = props
   const [activeKey, setActiveKey] = useState('1')
+  const [username, setUsername] = useState<string>('')
   const [panes, setPanes] = useState<any[]>([])
 
   useEffect(() => {
+    const str = window.localStorage.getItem('username') || ''
+    setUsername(str)
     let arr: { key: string, title: string, path: string }[] = JSON.parse(JSON.stringify(panes))
     let route = routes[1].routes
     let data: any = arr.find((item: any) => {
@@ -72,9 +75,9 @@ const Layout = (props: propsType) => {
       }
     });
   }
-const goto=()=>{
-  history.replace('/login')
-}
+  const goto = () => {
+    history.replace('/login')
+  }
   return (
     <div className='layout'>
       <div className='layout-header'>
@@ -96,14 +99,14 @@ const goto=()=>{
               ))}
             </Tabs>
             <div className='header-right-handle'>
-              
-              <Button type="link" onClick={()=>goto()}>退出登錄</Button>
+              {username}
+              <Button type="link" onClick={() => goto()}>退出登錄</Button>
 
             </div>
           </div>
         </div>
       </div>
-        {children }
+      {children}
     </div>
   );
 }

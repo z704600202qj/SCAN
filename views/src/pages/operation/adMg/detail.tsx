@@ -50,8 +50,7 @@ export default class extends Component<PropsType, StateType>{
 
         return <div className='merchantsetails'>
             <Card title='自助機轮播图管理' style={{ margin: '10px 20px' }} extra={<Button>添加</Button>} bordered={false}>
-                        <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
-
+                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
             </Card>
         </div>
     }

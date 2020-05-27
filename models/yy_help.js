@@ -14,7 +14,7 @@ class yy_help extends Model {
       }
     });
     if (data[0] === 0) {
-      throw new global.errs.NotFound('hid不存在')
+      throw new global.errs.NotFound('修改不成功')
     }
   }
   static async createData(title,arg){
