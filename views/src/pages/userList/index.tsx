@@ -1,48 +1,56 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
+import { Link } from 'umi';
 import { Form, Input, Button, Radio } from 'antd';
 import './index.less'
+import { user } from '@/services/user'
+
 import Tables from '@/components/Tables'
 interface StateType {
-    select: string
+    page: number
+    data:any[]
 }
 interface PropsType { }
 
 const columns = [
     {
         title: '用户ID',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'userid',
+        key: 'userid',
     },
     {
         title: '用戶暱稱',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'nickname',
+        key: 'nickname',
     },
     {
         title: '註冊時間',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'create_time',
+        key: 'create_time',
     },
     {
-        title: '綁定賬號',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        title: '邮箱',
+        dataIndex: 'email',
+        key: 'email',
     },
     {
         title: '手機號',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'mobile',
+        key: 'mobile',
     },
     {
         title: '當前狀態',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'is_freeze',
+        key: 'is_freeze',
+        render(e: string) {
+            return e === '1' ? '正常' : '冻结'
+        }
     },
     {
         title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        render:(item: { userid: any; })=>{
+            return <Link to={`/userDetail?id=${item.userid}`}>详情</Link>
+        }
     },
 ]
 const formItemLayout = {
@@ -52,13 +60,24 @@ const formItemLayout = {
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+        this.state = {
+            page: 1,
+            data:[]
+        }
     }
     componentDidMount() {
+        this.list()
     }
 
-
+    list = async () => {
+        const { page } = this.state
+        let { data } = await user({ page: page })
+        this.setState({
+            data:data.list
+        })
+    }
     render() {
+        const {data}=this.state
         return <div>
             <Form layout='inline'  {...formItemLayout} className='search-form'>
                 <Row>
@@ -84,8 +103,8 @@ export default class extends Component<PropsType, StateType>{
                     </Col>
                 </Row>
             </Form>
-            <Card  bordered={false}  style={{margin:'10px 20px'}}>
-                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+            <Card bordered={false} style={{ margin: '10px 20px' }}>
+                <Tables columns={columns} data={data} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
             </Card>
         </div>
     }

@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { Upload } from 'antd';
-import { history } from 'umi';
+import { Row, Upload, Card } from 'antd';
 import { Input, Button, Checkbox } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import Tables from '@/components/Tables'
 import CreateFile from './CreateFile'
-import { brandCreate, brandDesc, brandEdit,brandStatus } from '@/services/store'
+import { brandCreate } from '@/services/store'
 import './create.less'
 interface StateType {
     remark: string,
     brand_name: string,
-    status: string,
     imageUrl: string,
     visible: boolean,
     loading: boolean,
@@ -24,13 +22,13 @@ const arr = [
         title: '備註說明',
         dataIndex: 'describe',
         key: 'describe',
-        render: (text: React.ReactNode) => <a>{text}</a>,
+        render: text => <a>{text}</a>,
     },
     {
         title: '图片',
         dataIndex: 'file_path',
         key: 'file_path',
-        render: () => <img width='50' src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />,
+        render: text => <img width='50' src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />,
     },
 
 ]
@@ -41,7 +39,6 @@ export default class extends Component<PropsType, StateType>{
             imageUrl: '123',
             remark: '',
             brand_name: '',
-            status: '1',
             is_bold: false,
             visible: false,
             loading: false,
@@ -49,21 +46,8 @@ export default class extends Component<PropsType, StateType>{
         }
     }
     componentDidMount() {
-        this.brandDesc()
     }
-    brandDesc = async () => {
-        const { query }: any = history.location
-        let { data } = await brandDesc({ bid: query.id })
-        let info = data.data
-        this.setState({
-            imageUrl: info.thumb_path,
-            remark: info.remark,
-            brand_name: info.brand_name,
-            status: info.status,
-            is_bold: info.is_bold === '0' ? false : true,
-            list: data.list
-        })
-    }
+
     onCreate = (e: any) => {
         let arr: any[] = JSON.parse(JSON.stringify(this.state.list))
         arr.push(e)
@@ -82,28 +66,6 @@ export default class extends Component<PropsType, StateType>{
             loading: false,
             list: []
         })
-    }
-    editSave = async () => {
-        const { query }: any = history.location
-        const { imageUrl, remark, brand_name, status, is_bold, list } = this.state
-        await brandEdit({
-            bid: query.id,
-            thumb_path: imageUrl,
-            remark,
-            brand_name,
-            status,
-            is_bold: is_bold === false ? '0' : 1,
-            list
-        })
-    }
-    changeStatus = async () => {
-        const { query }: any = history.location
-        const { status } = this.state
-        await brandStatus({
-            bid: query.id,
-            status: status === '1' ? '0' : '1',
-        })
-        await this.brandDesc()
     }
     edits = (e) => {
         console.log(e)
@@ -144,8 +106,8 @@ export default class extends Component<PropsType, StateType>{
                 <div className="ant-upload-text">上傳圖片</div>
             </div>
         );
-        const { imageUrl, list, is_bold, brand_name, status } = this.state
-        return <>
+        const { imageUrl, list, is_bold, brand_name } = this.state
+        return <Card style={{ margin: '10px 20px' }} title='商户基本信息' bordered={false} extra={<Button type="primary" onClick={this.createMer}>新建商户</Button>}>
             <div className='merchantsetails'>
 
                 <div className='merchants-content'>
@@ -177,14 +139,6 @@ export default class extends Component<PropsType, StateType>{
                     </div>
                 </div>
             </div>
-            <div className='button-warps'>
-                <Button className='button-items' type="primary" onClick={this.editSave}>保存</Button>
-
-                <Button className='button-items' onClick={this.changeStatus}>{
-                    status === '1' ? '停用商戶' : '启用商户'
-                }</Button>
-                <Button className='button-items' onClick={this.createMer}>刪除商戶</Button>
-            </div>
             <CreateFile
                 onCreate={(e) => this.onCreate(e)}
                 visible={this.state.visible}
@@ -193,7 +147,6 @@ export default class extends Component<PropsType, StateType>{
                         visible: false
                     })
                 }} />
-
-        </>
+        </Card>
     }
 }

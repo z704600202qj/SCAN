@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
-import {history} from 'umi'
+import { history,Link } from 'umi'
 import { Form, Input, Button, DatePicker, Select } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
+import { brandList } from '@/services/store'
 import Tables from '@/components/Tables'
 import './index.less'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
 
+
 interface StateType {
+    page: number,
+    list: any[]
 }
 interface PropsType { }
 
 const columns = [
     {
         title: '商戶編號',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'bid',
+        key: 'bid',
     },
     {
         title: '商戶名稱',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'brand_name',
+        key: 'brand_name',
     },
     {
         title: '擁有門店',
@@ -31,38 +34,52 @@ const columns = [
     },
     {
         title: '創建日期',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'create_time',
+        key: 'create_time',
     },
     {
         title: '當前狀態',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        render(e: any) {
+            return e.status === '1' ? '正常' : '冻结'
+        }
     },
     {
         title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        render:(item: { bid: any; })=>{
+            return <Link to={`/merchantsDetails?id=${item.bid}`}>详情</Link>
+        }
     },
 ]
 
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+        this.state = {
+            page: 1,
+            list: []
+        }
     }
     componentDidMount() {
+        this.brandList()
     }
-
-goto(){
-    history.push('/merchantsDetails')
-}
+    brandList = async () => {
+        const { page } = this.state
+        let { data } = await brandList({ page: page })
+        console.log(data)
+        this.setState({
+            list: data.list
+        })
+    }
+    goto() {
+        history.push('/merchantsCreate')
+    }
     render() {
+        const { list } = this.state
         return <div>
             <Form layout='inline' style={{ marginBottom: 20 }} className='search-form'>
                 <Row>
                     <Col style={{ marginRight: 20 }}>
-                        <Button type="primary" icon={<PlusOutlined />} onClick={()=>this.goto()}> 添加商戶 </Button>
+                        <Button type="primary" icon={<PlusOutlined />} onClick={() => this.goto()}> 添加商戶 </Button>
                     </Col>
                     <Col >
                         <Form.Item >
@@ -88,13 +105,13 @@ goto(){
                     <Col>
                         <Form.Item >
                             <Button type="primary">搜索</Button>
-                            <Button style={{marginLeft:15}}>重置</Button>
+                            <Button style={{ marginLeft: 15 }}>重置</Button>
                         </Form.Item>
                     </Col>
                 </Row>
             </Form>
             <Card style={{ margin: '10px 20px' }}>
-                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+                <Tables columns={columns} data={list} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
             </Card>
         </div>
     }

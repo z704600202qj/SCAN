@@ -16,3 +16,25 @@ export async function string(params: any) {
     data: { ...params },
   });
 }
+export async function user(params: any) {
+  return request({
+    url: '/user',
+    method: 'post',
+    data: { ...params },
+  });
+}
+export async function adminedit(params: any) {
+  return request({
+    url: '/admin/edit',
+    method: 'post',
+    ifHandleOk:true,
+    data: { ...params },
+  });
+}
+export async function admin(params?: any) {
+  return request({
+    url: '/admin',
+    method: 'post',
+    data: { ...params },
+  });
+}

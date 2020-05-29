@@ -4,7 +4,15 @@ const { User } = require('../models/yy_user.js')
 const router = new Router({
   prefix: '/user'
 })
-
+router.post('/', async (ctx, next) => {
+  try {
+      const { size = 10, page = 1, ...arguments } = ctx.request.body
+      let d = await User.getData(size, page,arguments)
+      ctx.body = await new global.errs.Success(d)
+  } catch (e) {
+      ctx.body = e || []
+  }
+})
 router.post('/register', async (ctx, next) => {
   const { nickname, mobile, password } = ctx.request.body
   try {

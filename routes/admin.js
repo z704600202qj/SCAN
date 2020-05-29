@@ -5,6 +5,23 @@ const Admin = require('../models/yy_admin.js')
 const router = new Router({
   prefix: '/admin'
 })
+router.post('/', async (ctx, next) => {
+  try {
+    let d = await Admin.getData()
+    ctx.body = await new global.errs.Success(d)
+  } catch (e) {
+    ctx.body = e || []
+  }
+})
+router.post('/edit', async (ctx, next) => {
+  try {
+    const { aid, password, newpassword } = ctx.request.body
+    let d = await Admin.editAccount(aid, password, newpassword)
+    ctx.body = await new global.errs.Success(d)
+  } catch (e) {
+    ctx.body = e || []
+  }
+})
 router.post('/register', async (ctx, next) => {
   const {
     username,

@@ -34,7 +34,7 @@ export default class extends Component<propsType, stateType>{
         return <div className='administrator-warp'  >
             <Card className='infos'>
                 <div className='avatar'>
-                    <img className='img' src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
+                    <img className='imgs' src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" alt="" />
                     <div className='nickName'>
                         <div>momoChou</div>
                         <div>ID:39292839</div>

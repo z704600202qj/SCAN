@@ -1,17 +1,24 @@
 /* jshint indent: 2 */
-const {
-  Sequelize,
-  Model
-} = require('sequelize')
+const { DataTypes, Model } = require('sequelize')
 
-const {
-  sequelize
-} = require('../core/db')
-const {
-  generateToken
-} = require('../core/util');
+const { sequelize } = require('../core/db')
+const { generateToken } = require('../core/util');
 
 class User extends Model {
+  static async getData(size, page = 1, arg) {
+    let data = await User.findAndCountAll({
+      where: { ...arg },
+      limit: size || 10,//返回个数
+      offset: size * (page - 1) || 0,//起始位置,跳过数量
+    })
+    data.list = data.rows
+    delete data.rows
+    return {
+      ...data,
+      currentPage: page,
+      pageSize: Math.ceil(data.count / size)
+    }
+  }
   static async _findOne(mobile) {
     let data = await User.findOne({
       where: {
@@ -61,39 +68,52 @@ class User extends Model {
 
 User.init({
   userid: {
-    type: Sequelize.INTEGER(11).UNSIGNED,
+    type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
   nickname: {
-    type: Sequelize.STRING(32),
+    type: DataTypes.STRING(32),
     allowNull: false,
     defaultValue: ''
   },
   mobile: {
-    type: Sequelize.CHAR(11),
+    type: DataTypes.CHAR(11),
     allowNull: false,
-    unique: true,
+    defaultValue: ''
+  },
+  email: {
+    type: DataTypes.STRING(32),
+    allowNull: false,
+    defaultValue: ''
+  },
+  line: {
+    type: DataTypes.STRING(32),
+    allowNull: false,
     defaultValue: ''
   },
   password: {
-    type: Sequelize.CHAR(32),
+    type: DataTypes.CHAR(32),
     allowNull: false,
     defaultValue: ''
   },
   is_freeze: {
-    type: Sequelize.ENUM('1', '2'),
+    type: DataTypes.ENUM('1', '2'),
     allowNull: false,
     defaultValue: '1'
   },
-
+  address: {
+    type: DataTypes.STRING(255),
+    allowNull: false,
+    defaultValue: ''
+  },
 }, {
   tableName: 'yy_user',
   sequelize: sequelize,
   timestamps: true,
   createdAt: 'create_time',
-  updatedAt: false,
+  updatedAt: 'update_time',
   deletedAt: false
 })
 

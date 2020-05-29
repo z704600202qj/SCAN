@@ -47,7 +47,7 @@ export default class extends Component<PropsType, StateType>{
         await this.facility_device()
     }
     facility_device = async () => {
-        const { query } = history.location
+        const { query }:any = history.location
 
         let { data } = await facility_device({ fid: query.fid })
         this.setState({

@@ -13,6 +13,15 @@ router.post('/', async (ctx, next) => {
         ctx.body = e || []
     }
 })
+router.post('/detail', async (ctx, next) => {
+    try {
+        const { bid } = ctx.request.body
+        let d = await brand.getDetail(bid)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e || []
+    }
+})
 router.post('/create', async (ctx, next) => {
     const { brand_name, ...arg } = ctx.request.body
     try {
@@ -41,6 +50,16 @@ router.post('/edit', async (ctx, next) => {
         ctx.body = e
     }
 })
+router.post('/status', async (ctx, next) => {
+    const { bid, ...arg } = ctx.request.body
+    try {
+        let d = await brand.statusData(bid, arg)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e
+    }
+})
+
 
 
 module.exports = router

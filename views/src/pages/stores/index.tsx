@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
 import { Form, Input, Button, DatePicker, Select } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { history, Link } from 'umi'
+import { brandShopList } from '@/services/store'
 
 import Tables from '@/components/Tables'
 import './index.less'
@@ -9,19 +10,21 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 
 interface StateType {
+    page: number,
+    list: any[]
 }
 interface PropsType { }
 
 const columns = [
     {
         title: '門店編號',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'bsid',
+        key: 'bsid',
     },
     {
         title: '門店名稱',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'shop_name',
+        key: 'shop_name',
     },
     {
         title: '所屬地區',
@@ -30,36 +33,53 @@ const columns = [
     },
     {
         title: '地址',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'address',
+        key: 'address',
     },
     {
         title: '創建日期',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'create_time',
+        key: 'create_time',
     },
     {
         title: '當前狀態',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'sig',
+        key: 'sig',
+        render(e: any) {
+            return e === '1' ? '正常' : (e === '2' ? '下线' : '停用')
+        }
     },
     {
         title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        render:(item: { bsid: any; })=>{
+            return <Link to={`/storesDetails?id=${item.bsid}`}>详情</Link>
+        }
     },
 ]
 
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+        this.state = {
+            page: 1,
+            list: []
+        }
     }
     componentDidMount() {
+        this.brandShopList()
+    }
+    brandShopList = async () => {
+        const { page } = this.state
+        let { data } = await brandShopList({
+            page: page
+        })
+        this.setState({
+            list: data.list
+        })
     }
 
-
     render() {
+        const {list}=this.state
         return <>
             <Form layout='inline' style={{ marginBottom: 20 }}  className='search-form'>
                 <Row>
@@ -93,7 +113,7 @@ export default class extends Component<PropsType, StateType>{
                 </Row>
             </Form>
             <Card bordered={false} style={{margin:'10px 20px'}}>
-            <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+            <Tables columns={columns} data={list} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
         </Card>
         </>
     }

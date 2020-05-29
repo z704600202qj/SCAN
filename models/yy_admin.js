@@ -15,6 +15,26 @@ class Admin extends Model {
     let d = await Admin.create({ username, password })
     return d
   }
+  static async editAccount(aid, password, newpassword) {
+    let user = await Admin.findOne({
+      where: {
+        aid
+      }
+    })
+    if (user.password !== password) {
+      throw new global.errs.NotFound('旧密码不正确')
+    }
+    let d = await Admin.update({ password: newpassword }, {
+      where: {
+        aid
+      }
+    })
+    return 
+  }
+  static async getData() {
+    let data = await Admin.findAll()
+    return data
+  }
   // 邮箱密码登录
   static async verifyPasswords(username, password) {
     let user = await Admin.findOne({
@@ -29,7 +49,7 @@ class Admin extends Model {
       throw new global.errs.ParameterException('密码不正确')
     }
     const token = await generateToken(user.username, user.password);
-    return {token,username:user.username}
+    return { token, username: user.username }
   }
 
 }

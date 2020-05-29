@@ -37,9 +37,32 @@ class yy_brand extends Model {
       // 事务已被回滚
     });
   }
+  static async getDetail(id) {
+    let data = await yy_brand.findOne({
+      where: {
+        bid: id
+      }
+    });
+    let list = await yy_brand_file.findAll({
+      where: {
+        bid: id
+      }
+    });
+    return {
+      data,
+      list:list
+    }
+  }
+  static async statusData(id, query) {
+    await yy_brand.update(query, {
+      where: {
+        bid: id
+      }
+    });
+  }
   static async editData(id, query) {
     const batchAmount = 100;//拆分粒度
-   await yy_brand.update(query, {
+    await yy_brand.update(query, {
       where: {
         bid: id
       }
@@ -104,6 +127,11 @@ yy_brand.init({
     type: DataTypes.ENUM('0', '1'),
     allowNull: false,
     defaultValue: '0'
+  },
+  status: {
+    type: DataTypes.ENUM('0', '1'),
+    allowNull: false,
+    defaultValue: '1'
   }
 }, {
   tableName: 'yy_brand',

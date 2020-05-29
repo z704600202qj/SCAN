@@ -18,7 +18,9 @@ let arr = [
             { path: '/orderDetails', component: 'order/details', title: '订单详情', parent: 'sub1', key: '1-1' },
 
             { path: '/merchants', component: 'merchants', title: '商戶管理', key: '2', parent: 'sub2' },
+            { path: '/merchantsCreate', component: 'merchants/create', title: '商戶创建', key: '2-2', parent: 'sub2' },
             { path: '/merchantsDetails', component: 'merchants/details', title: '商戶详情', key: '2-1', parent: 'sub2' },
+            { path: '/merchantsCreateDoor', component: 'merchants/createDoor', title: '商戶门店', key: '2-1', parent: 'sub2' },
 
             { path: '/stores', component: 'stores', title: '門店管理', key: '3', parent: 'sub2' },
             { path: '/storesDetails', component: 'stores/details', title: '門店詳情', key: '3-1', parent: 'sub2' },
