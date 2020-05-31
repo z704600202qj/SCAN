@@ -48,7 +48,7 @@ class Admin extends Model {
     if (user.password !== password) {
       throw new global.errs.ParameterException('密码不正确')
     }
-    const token = await generateToken(user.username, user.password);
+    const token = await generateToken(user.username, user.aid);
     return { token, username: user.username }
   }
 

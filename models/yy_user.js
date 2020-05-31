@@ -49,8 +49,7 @@ class User extends Model {
     if (user.password !== password) {
       throw global.errs.ParameterException('密码不正确')
     }
-
-    const token = await generateToken(user.mobile, user.password);
+    const token = await generateToken(user.mobile, user.userid);
     return {
       token: token,
       mobile: user.mobile

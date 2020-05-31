@@ -13,7 +13,9 @@ interface StateType {
     page: number,
     list: any[]
 }
-interface PropsType { }
+interface PropsType {
+    serverid:string // 关联门店式使用
+ }
 
 const columns = [
     {

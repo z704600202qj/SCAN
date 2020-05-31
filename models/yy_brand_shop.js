@@ -1,8 +1,9 @@
 /* jshint indent: 2 */
 const { Model, DataTypes } = require('sequelize')
 const { sequelize } = require('../core/db')
-const yy_brand_shop_mode = require('../models/yy_brand_shop_mode')
-const yy_mode = require('../models/yy_mode')
+const yy_brand_shop_mode = require('./yy_brand_shop_mode')
+const yy_brand = require('./yy_brand')
+const yy_mode = require('./yy_mode')
 
 class yy_brand_shop extends Model {
 
@@ -24,7 +25,12 @@ class yy_brand_shop extends Model {
     let data1 = await yy_brand_shop.findOne({
       where: {
         bsid: id
-      }
+      },
+      include: [{
+        model: yy_brand,
+        as: 'brand',
+      },
+    ],
     })
     let data2 = await yy_brand_shop_mode.findOne({
       where: {
@@ -152,6 +158,6 @@ yy_brand_shop.init({
   deletedAt: false
 })
 
-yy_brand_shop.hasMany(yy_brand_shop_mode, { foreignKey: 'bsid', targetKey: 'bsmid', as: 'pay' });
+yy_brand_shop.belongsTo(yy_brand, { foreignKey: 'bid', targetKey: 'bid',as:'brand' });
 
 module.exports = yy_brand_shop

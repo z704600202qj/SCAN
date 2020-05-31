@@ -26,7 +26,6 @@ export default () => {
         <Form
             className='login-warp'
             name="basic"
-            initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
         >

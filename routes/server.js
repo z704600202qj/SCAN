@@ -1,12 +1,11 @@
 const Router = require('koa-router')
-
 const server = require('../models/yy_server.js')
 
 const router = new Router({
     prefix: '/server'
 })
-router.get('/', async (ctx, next) => {
-    const { stid } = ctx.request.query
+router.post('/', async (ctx, next) => {
+    const { stid } = ctx.request.body
     try {
         let d = await server.getData(stid)
         ctx.body = await new global.errs.Success(d)
@@ -14,8 +13,18 @@ router.get('/', async (ctx, next) => {
         ctx.body = e
     }
 })
-router.get('/detail', async (ctx, next) => {
-    const { sid } = ctx.request.query
+router.post('/list', async (ctx, next) => {
+    const { size = 10, page = 1, ...arg } = ctx.request.body
+    try {
+        let d = await server.getPgeData(size,page,arg)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e
+    }
+})
+
+router.post('/detail', async (ctx, next) => {
+    const { sid } = ctx.request.body
     try {
         let d = await server.getDetail(sid)
         ctx.body = await new global.errs.Success(d)
@@ -24,9 +33,9 @@ router.get('/detail', async (ctx, next) => {
     }
 })
 router.post('/edit', async (ctx, next) => {
-    const { sid,...arg } = ctx.request.body
+    const { sid,spid,...arg } = ctx.request.body
     try {
-        let d = await server.editData(sid,arg)
+        let d = await server.editData(sid,spid,arg)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e

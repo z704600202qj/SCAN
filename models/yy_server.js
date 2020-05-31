@@ -2,6 +2,7 @@
 const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../core/db')
 const yy_server_param = require('./yy_server_param.js')
+const yy_server_type = require('./yy_server_type.js')
 class yy_server extends Model {
   static async getData(stid) {
     let data = await yy_server.findAll({
@@ -10,6 +11,25 @@ class yy_server extends Model {
       }
     })
     return data
+  }
+  static async getPgeData(size, page = 1, arg) {
+    let data = await yy_server.findAndCountAll({
+      where: { ...arg },
+      include: [{
+        model: yy_server_type,
+        as: 'server_type',
+      }
+    ],
+      limit: size || 10,//返回个数
+      offset: size * (page - 1) || 0,//起始位置,跳过数量
+    })
+    data.list = data.rows
+    delete data.rows
+    return {
+      ...data,
+      currentPage: page,
+      pageSize: Math.ceil(data.count / size)
+    }
   }
   static async delData(sid) {
     let data = await yy_server.destroy({
@@ -26,7 +46,7 @@ class yy_server extends Model {
       throw new global.errs.NotFound('删除不成功')
     }
   }
-  static async editData(sid, arg) {
+  static async editData(sid,spid, arg) {
     let data = await yy_server.update(arg, {
       where: {
         sid
@@ -34,10 +54,10 @@ class yy_server extends Model {
     })
     let list = await yy_server_param.update(arg, {
       where: {
-        sid
+        spid
       }
     })
-    if (data[0] === 0) {
+    if (data[0] === 0&& list[0] === 0) {
       throw new global.errs.NotFound('修改不成功')
     }
   }
@@ -108,4 +128,6 @@ yy_server.init({
   sequelize: sequelize,
   timestamps: false,
 })
+yy_server.belongsTo(yy_server_type, { foreignKey: 'stid', targetKey: 'stid' ,as:'server_type'});
+
 module.exports = yy_server

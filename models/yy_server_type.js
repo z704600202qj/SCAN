@@ -41,6 +41,11 @@ yy_server_type.init({
     primaryKey: true,
     autoIncrement: true
   },
+  type_name: {
+    type: DataTypes.STRING(64),
+    allowNull: false,
+    defaultValue: ''
+  },
   type: {
     type: DataTypes.ENUM('1','2','3'),
     allowNull: false,

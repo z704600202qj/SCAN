@@ -13,8 +13,8 @@ router.post('/', async (ctx, next) => {
         ctx.body = e || []
     }
 })
-router.get('/:id', async (ctx, next) => {
-    const { id } = ctx.params
+router.post('/detail', async (ctx, next) => {
+    const { id } = ctx.request.body
     let data = await brand_shop.detail(id)
     ctx.body = new global.errs.Success(data)
 })

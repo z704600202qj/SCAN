@@ -1,6 +1,6 @@
 const Router = require('koa-router')
-
 const coupon = require('../models/yy_coupon.js')
+const {Auth}=require('../core/auth.js')
 
 const router = new Router({
     prefix: '/coupon'
@@ -14,6 +14,7 @@ router.post('/', async (ctx, next) => {
         ctx.body = e || []
     }
 })
+
 router.post('/detail', async (ctx, next) => {
     try {
         const { cid } = ctx.request.body

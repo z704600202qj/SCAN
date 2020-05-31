@@ -1,22 +1,25 @@
 const Router = require('koa-router')
 
-const Facility = require('../models/yy_facility.js')
+const Goods = require('../models/yy_goods.js')
+const goodsFacility = require('../models/yy_goods_facility.js')
 
 const router = new Router({
-    prefix: '/facility'
+    prefix: '/goods'
 })
 router.post('/', async (ctx, next) => {
+    const { size,page,...arg } = ctx.request.body
+
     try {
-        let d = await Facility.getData()
+        let d = await Goods.getData( size,page,arg )
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e || []
     }
 })
 router.post('/detail', async (ctx, next) => {
-    const { fid } = ctx.request.body
+    const { gid } = ctx.request.body
     try {
-        let d = await Facility.getDetail(fid)
+        let d = await Goods.getDetail(gid)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e
@@ -24,29 +27,39 @@ router.post('/detail', async (ctx, next) => {
 })
 router.post('/create', async (ctx, next) => {
     const {
-        title,
-        remark
+        stid,
+        fids,
+        ...arg
     } = ctx.request.body
     try {
-        let d = await Facility.createData(title, remark)
+        let d = await Goods.createData(stid, arg)
+        let arr=fids.map(item=>{
+            return {
+                gid:d.gid,
+                fid:item,
+                device_state:1
+            }
+        })
+        console.log(arr)
+        await goodsFacility.createData(arr)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e
     }
 })
 router.post('/edit', async (ctx, next) => {
-    const { fid, ...arg } = ctx.request.body
+    const { gid, ...arg } = ctx.request.body
     try {
-        let d = await Facility.editData(fid, arg)
+        let d = await Goods.editData(gid, arg)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e
     }
 })
 router.post('/del', async (ctx, next) => {
-    const { fid, } = ctx.request.body
+    const { gid, } = ctx.request.body
     try {
-        let d = await Facility.delData(fid)
+        let d = await Goods.delData(gid)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e

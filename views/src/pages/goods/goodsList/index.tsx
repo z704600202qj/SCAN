@@ -1,38 +1,39 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
 import { Form, Input, Button, Radio } from 'antd';
+import {Link} from 'umi'
 import './index.less'
 import Tables from '@/components/Tables'
+
+import { serverList } from '@/services/serviceMg'
+
 interface StateType {
-    select: string
+    list:any[]
 }
 interface PropsType { }
 
 const columns = [
     {
         title: '服務編號',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
-    },
-    {
-        title: '服務類型',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
+        dataIndex: 'sid',
+        key: 'sid',
     },
     {
         title: '服務名稱',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        dataIndex: 'server_name',
+        key: 'server_name',
     },
     {
-        title: '創建日期',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        title: '服務類型',
+        render(e: any) {
+            return e.server_type.type_name
+        }
     },
     {
         title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
+        render:(item: { sid: any;fids:string })=>{
+            return <Link to={`/goodsListDetail?id=${item.sid}&fids=${item.fids}`}>详情</Link>
+        }
     },
 ]
 const formItemLayout = {
@@ -42,13 +43,23 @@ const formItemLayout = {
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-
+this.state={
+    list:[]
+}
     }
     componentDidMount() {
+        this.serverList()
     }
 
-
+    serverList=async()=>{
+      let {data}=  await serverList()
+      console.log(data)
+      this.setState({
+        list:data.list
+      })
+    }
     render() {
+        const {list}=this.state
         return <div>
             <Form layout='inline'  {...formItemLayout} className='search-form'>
                 <Row>
@@ -70,7 +81,7 @@ export default class extends Component<PropsType, StateType>{
                 </Row>
             </Form>
             <Card  bordered={false}  style={{margin:'10px 20px'}}>
-                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+                <Tables columns={columns} data={list} rowKey='sid' list={{ totalNum: 0, totalPage: 0 }} />
             </Card>
         </div>
     }

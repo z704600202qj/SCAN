@@ -23,6 +23,13 @@ export async function brandShopList(params: any) {
         data: { ...params },
     });
 }
+export async function brandShopDetail(params: any) {
+    return request({
+        url: '/brand_shop/detail',
+        method: 'post',
+        data: { ...params },
+    });
+}
 
 
 export async function brandList(params: any) {

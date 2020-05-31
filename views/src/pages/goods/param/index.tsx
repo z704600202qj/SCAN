@@ -6,7 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/lib/form';
 
 import './index.less';
-import { facility, facilitycreate, facilitydel, facilityedit } from '@/services/serviceMg'
+import { facility, facilitycreate, facilitydetail, facilitydel, facilityedit } from '@/services/serviceMg'
 const { TextArea } = Input
 interface StateType {
     visible: boolean,
@@ -16,7 +16,9 @@ interface StateType {
     },
     list: any[]
 }
-interface PropsType { }
+interface PropsType {
+    associated?: string // 关联设备
+}
 
 export default class extends Component<PropsType, StateType>{
     formRef = React.createRef<FormInstance>();
@@ -30,6 +32,11 @@ export default class extends Component<PropsType, StateType>{
         }
     }
     componentDidMount() {
+        const { associated } = this.props
+        if (associated) {
+            this.facilitydetail(associated)
+            return
+        }
         this.getData()
     }
     async getData() {
@@ -38,6 +45,17 @@ export default class extends Component<PropsType, StateType>{
             list: data
         })
     }
+    async facilitydetail(associated: string) {
+        let arr = associated.indexOf(',') > -1 ? associated.split(',') : [associated]
+
+        let { data } = await facilitydetail({
+            fid: arr
+        })
+        this.setState({
+            list: data
+        })
+    }
+
     showModal = () => {
         this.setState({
             visible: true,
@@ -46,7 +64,7 @@ export default class extends Component<PropsType, StateType>{
     };
     handleOk = () => {
         const { current }: any = this.formRef
-        const { desc }:any = this.state
+        const { desc }: any = this.state
         let obj = current.getFieldsValue()
         current.submit()
         if (obj.title && obj.remark) {
@@ -88,6 +106,7 @@ export default class extends Component<PropsType, StateType>{
         });
     }
     render() {
+        const { associated } = this.props
 
         const { list, desc } = this.state
         return <div>
@@ -97,17 +116,20 @@ export default class extends Component<PropsType, StateType>{
                     {
                         list.map((item) => <Col span={8} key={item.fid} >
                             <Card title={item.title} actions={[<div className='btns' onClick={() => this.detail(item.fid)}>詳情</div>, <div className='btns' onClick={() => this.edits(item)}>編輯</div>, <div className='btns' onClick={() => this.del(item.fid)}>刪除</div>]} bordered={false}>
-                            key：{item.key_str} <br/>
-                            密钥：{item.secret_key} <br/>
-                            备注：{item.remark}
+                                key：{item.key_str} <br />
+                                密钥：{item.secret_key} <br />
+                                备注：{item.remark}
                             </Card>
                         </Col>)
                     }
-                    <Col span={8}>
-                        <Card bordered={false} style={{ textAlign: "center" }} onClick={() => this.showModal()}>
-                            <PlusOutlined />
-                        </Card>
-                    </Col>
+                    {
+                        !associated && <Col span={8}>
+                            <Card bordered={false} style={{ textAlign: "center" }} onClick={() => this.showModal()}>
+                                <PlusOutlined />
+                            </Card>
+                        </Col>
+                    }
+
                 </Row>
             </div>
             <Modal

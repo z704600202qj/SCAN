@@ -8,6 +8,9 @@ const {
 } = require('../core/db')
 
 class Order extends Model {
+  static async createData(){
+
+  }
   static async List(size, page = 1, arg) {
     let data = await Order.findAndCountAll({
       where: { ...arg },
@@ -103,8 +106,8 @@ Order.init({
     defaultValue: '0'
   },
 }, {
-  sequelize: sequelize,
   tableName: 'yy_order',
+  sequelize: sequelize,
   timestamps: true,
   createdAt: 'create_time',
   updatedAt: false,

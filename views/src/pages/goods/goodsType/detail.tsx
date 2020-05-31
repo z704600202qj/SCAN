@@ -1,107 +1,125 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Modal, Descriptions, Card } from 'antd';
-import Titles from '@/components/Title'
+import { Input, Button, Card } from 'antd';
+import { history } from 'umi'
 import Tables from '@/components/Tables'
+import Create from './Create'
+import { serverCreate, server, serverEdit, serverDel, serverDetail } from '@/services/serviceMg'
 
 import './index.less'
 interface StateType {
-    visible: boolean
+    visible: boolean,
+    list: any[],
+    serverList: any[],
+    info: object
 }
 interface PropsType { }
-const {TextArea}=Input
 
-const columns = [
-    {
-        title: '服務名稱',
-        dataIndex: 'orderNO',
-        key: 'orderNO',
-    },
-    {
-        title: '操作',
-        dataIndex: 'orderTime',
-        key: 'orderTime',
-    },
-]
+
 export default class extends Component<PropsType, StateType>{
     constructor(props: Readonly<PropsType>) {
         super(props)
-this.state={
-    visible:false
-}
+        this.state = {
+            visible: false,
+            list: [],
+            serverList: [],
+            info: {}
+        }
     }
     componentDidMount() {
+        this.server()
     }
-
-    create = () => {
+    server = async () => {
+        const { query }: any = history.location
+        let { data } = await server({ stid: query.stid })
+        this.setState({
+            serverList: data
+        })
+    }
+    edits = async (item: { sid: any; }) => {
+        let { data } = await serverDetail({
+            sid: item.sid
+        })
+        data.desc.fids = data.desc.fids.indexOf(',') > -1 ? data.desc.fids.split(',') : [data.desc.fids]
+        let obj = {
+            fids: data.desc.fids,
+            sid: data.desc.sid,
+            server_name: data.desc.server_name,
+            colours: data.list[0].colours,
+            tabula: data.list[0].tabula,
+            spid: data.list[0].spid
+        }
         this.setState({
             visible: true,
-        });
+            info: obj
+        })
     }
-    handleOk = e => {
-        console.log(e);
+    del = () => {
+
+    }
+    handleOk = async (e: any) => {
+        const { query }: any = history.location
+        e.stid = query.stid
+        e.fids = e.fids.join(',')
+        if (Object.keys(this.state.info).length > 0) {
+            e.spid = this.state.info.spid
+            e.sid = this.state.info.sid
+            await serverEdit(e)
+        } else {
+            await serverCreate(e)
+        }
+        await this.server()
         this.setState({
             visible: false,
+            info:{}
         });
     };
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     };
     render() {
-
+        const columns = [
+            {
+                title: '服務名稱',
+                dataIndex: 'server_name',
+                key: 'server_name',
+            },
+            {
+                title: '操作',
+                key: 'fdid',
+                render: (text: any) => (
+                    <div>
+                        <a onClick={() => this.edits(text)}>编辑</a>
+                        <a style={{ marginLeft: 10 }} onClick={() => this.del(text)}>删除</a>
+                    </div>
+                )
+            }
+        ]
         return <div className='merchantsetails'>
 
-            <Card style={{ margin: '10px 20px' }} title='服務類型详情' extra={<Button onClick={() => this.create()}>添加服務</Button>} bordered={false}>
-                <Tables columns={columns} data={[]} rowKey='' list={{ totalNum: 0, totalPage: 0 }} />
+            <Card style={{ margin: '10px 20px' }} title='服務類型详情' extra={<Button onClick={() => {
+                this.setState({
+                    visible: true,
+                })
+            }}>添加服務</Button>} bordered={false}>
+                <Tables columns={columns} data={this.state.serverList} rowKey='sid' unpagination={true} />
 
             </Card>
-            <Modal
-                title="添加服務"
-                visible={this.state.visible}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-            >
-                <Form
-                    className='login-warp'
-                    name="basic"
-                    initialValues={{ remember: true }}
-                >
-                    <Form.Item
-                        label='名稱'
-                        name="username"
-                        rules={[{ required: true, message: '請輸入名稱' }]}
-                    >
-                        <Input placeholder='請輸入名稱' />
-                    </Form.Item>
-                    <Form.Item
-                        label='商品參數'
-                        name="username"
-                    >
-                      A4
-                    </Form.Item>
-                    <Form.Item
-                        label='黑白'
-                        name="username"
-                    >
-                       <Input placeholder='請輸入名稱' style={{width:'80%'}} />  元/面
-                    </Form.Item>
-                    <Form.Item
-                        label='彩色'
-                        name="username"
-                    >
-                        <Input placeholder='請輸入名稱' style={{width:'80%'}} />  元/面
-                    </Form.Item>
-                    <Form.Item
-                        label='關聯設備'
-                        name="username"
-                        rules={[{ required: true, message: '請輸入備註!' }]}
-                    >
-                        <TextArea placeholder='請輸入備註' />
-                    </Form.Item>
-                </Form>
-            </Modal>
+            {
+                this.state.visible && <Create
+                    info={this.state.info}
+                    visible={this.state.visible}
+                    onCreate={this.handleOk}
+                    onCancel={() => {
+                        this.setState({
+                            visible: false,
+                            info:{}
+                        })
+                    }}
+                />
+            }
+
         </div>
     }
 }

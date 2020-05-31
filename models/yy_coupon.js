@@ -1,6 +1,8 @@
 /* jshint indent: 2 */
 const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../core/db')
+const yy_coupon_log = require('./yy_coupon_log')
+
 class yy_coupon extends Model {
   static async getData(size, page = 1, arg) {
     let data = await yy_coupon.findAndCountAll({
@@ -30,6 +32,11 @@ static async getDetail(cid){
       redeem,
       ...arg
     })
+    await yy_coupon_log.create({
+      cid:data.cid,
+      content:'创建优惠券'
+    })
+    
     return data
   }
   static async editData(id, query) {
@@ -40,10 +47,14 @@ static async getDetail(cid){
     });
     if (data[0] === 0) {
       throw new global.errs.NotFound('修改不成功')
+    }else{
+      await yy_coupon_log.create({
+        cid:data.id,
+        content:'编辑优惠券'
+      })
     }
   }
   static async status(id, status) {
-    console.log(id,{status:status})
     let data = await yy_coupon.update({status:status}, {
       where: {
         cid: id
@@ -51,10 +62,20 @@ static async getDetail(cid){
     });
     if (data[0] === 0) {
       throw new global.errs.NotFound('修改不成功')
+    }else{
+      await yy_coupon_log.create({
+        cid:data.id,
+        content:'编辑优惠券状态'
+      })
     }
   }
   static async delData(id) {
     let data = await yy_coupon.destroy({
+      where: {
+        cid: id
+      }
+    });
+    await yy_coupon_log.destroy({
       where: {
         cid: id
       }

@@ -8,6 +8,14 @@ class yy_facility extends Model {
     let data = await yy_facility.findAll()
     return data
   }
+  static async getDetail(fid){
+    let data = await yy_facility.findAll({
+      where: {
+        fid
+      }
+    })
+    return data
+  }
   static async createData(title, remark) {
     let key_str=random(16, {letters: 'ABCDEFG'})
     let secret_key=random(16, {letters: 'HIGKLMN'})

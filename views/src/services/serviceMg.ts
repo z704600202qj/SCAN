@@ -3,7 +3,7 @@ import request from '@/utils/request';
 export async function facility(params?: any) {
   return request({
     url: '/facility',
-    method: 'get',
+    method: 'post',
     data: { ...params },
   });
 }
@@ -12,6 +12,13 @@ export async function facilitycreate(params?: any) {
     url: '/facility/create',
     method: 'post',
     ifHandleOk: true,
+    data: { ...params },
+  });
+}
+export async function facilitydetail(params?: any) {
+  return request({
+    url: '/facility/detail',
+    method: 'post',
     data: { ...params },
   });
 }
@@ -59,6 +66,52 @@ export async function facility_device_edit(params?: any) {
 export async function facility_device_create(params?: any) {
   return request({
     url: '/facility_device/create',
+    method: 'post',
+    ifHandleOk: true,
+    data: { ...params },
+  });
+}
+export async function server(params?: any) {
+  return request({
+    url: '/server',
+    method: 'post',
+    data: { ...params },
+  });
+}
+export async function serverList(params?: any) {
+  return request({
+    url: '/server/list',
+    method: 'post',
+    data: { ...params },
+  });
+}
+
+export async function serverCreate(params?: any) {
+  return request({
+    url: '/server/create',
+    method: 'post',
+    ifHandleOk: true,
+    data: { ...params },
+  });
+}
+export async function serverDetail(params?: any) {
+  return request({
+    url: '/server/detail',
+    method: 'post',
+    data: { ...params },
+  });
+}
+export async function serverDel(params?: any) {
+  return request({
+    url: '/server/del',
+    method: 'post',
+    ifHandleOk: true,
+    data: { ...params },
+  });
+}
+export async function serverEdit(params?: any) {
+  return request({
+    url: '/server/edit',
     method: 'post',
     ifHandleOk: true,
     data: { ...params },
