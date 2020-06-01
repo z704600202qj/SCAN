@@ -163,6 +163,6 @@ yy_coupon.init({
   timestamps: true,
   createdAt: 'create_time',
   updatedAt: false,
-  deletedAt: false
+  deletedAt: 'deleted_at'
 })
 module.exports = yy_coupon
