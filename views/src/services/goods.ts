@@ -15,3 +15,10 @@ export async function goodsCreate(params?: any) {
     data: { ...params },
   });
 }
+export async function brand_shop_goods(params?: any) {
+  return request({
+    url: '/brand_shop_goods',
+    method: 'post',
+    data: { ...params },
+  });
+}

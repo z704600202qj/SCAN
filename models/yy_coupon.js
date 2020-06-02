@@ -122,6 +122,16 @@ yy_coupon.init({
     allowNull: false,
     defaultValue: '0.00'
   },
+  draw_starttime: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: '0000-00-00 00:00:00'
+  },
+  draw_endtime: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: '0000-00-00 00:00:00'
+  },
   start_time: {
     type: DataTypes.DATE,
     allowNull: false,

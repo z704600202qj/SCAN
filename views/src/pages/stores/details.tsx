@@ -28,7 +28,7 @@ export default class extends Component<PropsType, StateType>{
     }
     brandShopDetail = async () => {
         const { query }: any = history.location
-        let { data } = await brandShopDetail({ id: query.id })
+        let { data } = await brandShopDetail({ id: query.bsid })
         this.setState({
             details: data
         })

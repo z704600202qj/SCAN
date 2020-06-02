@@ -35,6 +35,8 @@ interface StateType {
     reduct: string,
     rebate: string,
     start_time: any,
+    draw_endtime: any,
+    draw_starttime: any,
     end_time: any,
     cash: string,
     num: number,
@@ -60,6 +62,8 @@ export default class extends Component<PropsType, StateType>{
             num: 0,
             start_time: '',
             end_time: '',
+            draw_endtime: '',
+            draw_starttime: '',
             cid: ''
         }
     }
@@ -86,6 +90,12 @@ export default class extends Component<PropsType, StateType>{
         this.setState({
             start_time: moment(e[0]),
             end_time: moment(e[1]),
+        })
+    }
+    changesPicker1= (e: moment.MomentInput[]) => {
+        this.setState({
+            draw_starttime: moment(e[0]),
+            draw_endtime: moment(e[1]),
         })
     }
     submit = async () => {
@@ -137,6 +147,8 @@ export default class extends Component<PropsType, StateType>{
                             </div>
                         }
 
+                        <div className='label'>领取时间</div>
+                        <RangePicker placeholder={['开始时间','结束时间']} value={[moment(this.state.start_time), moment(this.state.end_time)]} onChange={this.changesPicker1} format='YYYY-MM-DD' />
                         <div className='label'>有效期</div>
                         <RangePicker placeholder={['开始时间','结束时间']} value={[moment(this.state.start_time), moment(this.state.end_time)]} onChange={this.changesPicker} format='YYYY-MM-DD' />
                         <div className='label'>總量 當前剩餘9,032</div>

@@ -1,6 +1,7 @@
 const Router = require('koa-router')
 const coupon = require('../models/yy_coupon.js')
-const {Auth}=require('../core/auth.js')
+const coupon_log = require('../models/yy_coupon_log.js')
+const { Auth } = require('../core/auth.js')
 
 const router = new Router({
     prefix: '/coupon'
@@ -61,4 +62,14 @@ router.post('/del', async (ctx, next) => {
         ctx.body = e
     }
 })
+router.post('/log', async (ctx, next) => {
+    const { cid, size, page } = ctx.request.body
+    try {
+        let d = await coupon_log.getData(size, page, cid)
+        ctx.body = await new global.errs.Success(d)
+    } catch (e) {
+        ctx.body = e
+    }
+})
+
 module.exports = router

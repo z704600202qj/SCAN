@@ -65,6 +65,16 @@ Admin.init({
     allowNull: false,
     defaultValue: ''
   },
+  salt: {
+    type: DataTypes.STRING(12),
+    allowNull: false,
+    defaultValue: ''
+  },
+  state: {
+    type: DataTypes.INTEGER(3).UNSIGNED,
+    allowNull: false,
+    defaultValue: '0'
+  },
   password: {
     type: DataTypes.CHAR(32),
     allowNull: false,

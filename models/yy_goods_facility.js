@@ -30,11 +30,6 @@ yy_goods_facility.init({
     allowNull: false,
     defaultValue: '0'
   },
-  device_state: {
-    type: DataTypes.ENUM('1','2','3'),
-    allowNull: false,
-    defaultValue: '1'
-  }
 }, {
   tableName: 'yy_goods_facility',
   sequelize: sequelize,
