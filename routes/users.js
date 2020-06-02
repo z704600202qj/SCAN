@@ -43,5 +43,24 @@ router.post('/login', async (ctx, next) => {
     ctx.body = e
   }
 })
-
+router.post('/otherlogin', async (ctx, next) => {
+  const { mobile, password } = ctx.request.body
+  
+  try {
+   
+    ctx.body = '第三方登录'
+  } catch (e) {
+    ctx.body = e
+  }
+})
+router.post('/bindAccount', async (ctx, next) => {
+  const { mobile, password } = ctx.request.body
+  
+  try {
+   
+    ctx.body = '第三方登录绑定账号'
+  } catch (e) {
+    ctx.body = e
+  }
+})
 module.exports = router
