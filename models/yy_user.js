@@ -58,7 +58,7 @@ class User extends Model {
   static async getinfoById(id) {
     const user = await User.findOne({
       where: {
-        id
+        userid:id
       }
     })
     return user
@@ -87,8 +87,8 @@ User.init({
     allowNull: false,
     defaultValue: ''
   },
-  line: {
-    type: DataTypes.STRING(32),
+  remark: {
+    type: DataTypes.STRING(255),
     allowNull: false,
     defaultValue: ''
   },
@@ -97,7 +97,7 @@ User.init({
     allowNull: false,
     defaultValue: ''
   },
-  is_freeze: {
+  state: {
     type: DataTypes.ENUM('1', '2'),
     allowNull: false,
     defaultValue: '1'

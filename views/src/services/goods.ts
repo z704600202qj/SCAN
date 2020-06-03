@@ -21,4 +21,10 @@ export async function brand_shop_goods(params?: any) {
     method: 'post',
     data: { ...params },
   });
+}export async function brand_shop_goodsCreate(params?: any) {
+  return request({
+    url: '/brand_shop_goods/create',
+    method: 'post',
+    data: { ...params },
+  });
 }

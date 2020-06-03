@@ -20,7 +20,7 @@ yy_goods_facility.init({
     primaryKey: true,
     autoIncrement: true
   },
-  gid: {
+  bsgid: {
     type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     defaultValue: '0'

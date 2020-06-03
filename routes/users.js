@@ -27,6 +27,16 @@ router.post('/register', async (ctx, next) => {
     ctx.body = e
   }
 })
+router.post('/detail', async (ctx, next) => {
+  const { userid } = ctx.request.body
+  try {
+   
+    let d = await User.getinfoById(userid)
+    ctx.body = new global.errs.Success(d)
+  } catch (e) {
+    ctx.body = e
+  }
+})
 router.post('/login', async (ctx, next) => {
   const { mobile, password } = ctx.request.body
   await ctx.check('mobile', '手機號不能为空').notEmpty()

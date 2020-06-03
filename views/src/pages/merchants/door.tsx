@@ -52,7 +52,7 @@ const columns = [
     {
         title: '操作',
         render:(item: { bsid: any; })=>{
-            return <Link to={`/storesDetails?id=${item.bsid}`}>详情</Link>
+            return <Link to={`/storesDetails?bsid=${item.bsid}`}>详情</Link>
         }
     },
 ]

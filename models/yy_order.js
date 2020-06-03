@@ -3,9 +3,7 @@ const { Model, DataTypes } = require('sequelize')
 const { User } = require('./yy_user')
 const Brand = require('./yy_brand')
 
-const {
-  sequelize
-} = require('../core/db')
+const { sequelize} = require('../core/db')
 
 class Order extends Model {
   static async createData(){

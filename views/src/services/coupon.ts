@@ -39,3 +39,13 @@ export async function couponList(params?: any) {
       data: { ...params },
     });
   }
+  export async function userCoupon(params?: any) {
+    return request({
+      url: '/user_coupon/list',
+      method: 'post',
+      ifHandleOk:false,
+      data: { ...params },
+    });
+  }
+
+  

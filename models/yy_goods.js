@@ -72,6 +72,6 @@ yy_goods.init({
 
 yy_goods.belongsTo(yy_server_type, { foreignKey: 'stid', targetKey: 'stid', as: 'server_type' });
 yy_goods.belongsTo(yy_server, { foreignKey: 'sid', targetKey: 'sid', as: 'server' });
-yy_goods.belongsToMany(yy_facility, { through: yy_goods_facility, as: 'goods_facility', foreignKey: 'gid', otherKey: 'fid' });
+// yy_goods.belongsToMany(yy_facility, { through: yy_goods_facility, as: 'goods_facility', foreignKey: 'gid', otherKey: 'fid' });
 
 module.exports = yy_goods

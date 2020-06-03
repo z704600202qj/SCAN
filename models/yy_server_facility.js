@@ -1,29 +1,34 @@
 /* jshint indent: 2 */
 /* jshint indent: 2 */
 const { Model, DataTypes } = require('sequelize')
-const { sequelize } = require('../core/db')
+const { User } = require('./yy_user')
+const Brand = require('./yy_brand')
 
-class yy_brand_shop_mode extends Model { }
-yy_brand_shop_mode.init({
-  bsmid: {
+const { sequelize} = require('../core/db')
+
+class yy_server_facility extends Model {
+
+}
+yy_server_facility.init({
+  sfid: {
     type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true
   },
-  bsid: {
+  sid: {
     type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     defaultValue: '0'
   },
-  mids: {
-    type: DataTypes.INTEGER(32),
+  fid: {
+    type: DataTypes.INTEGER(11).UNSIGNED,
     allowNull: false,
     defaultValue: '0'
-  },
-}, {
-  tableName: 'yy_brand_shop_mode',
+  }
+},{
+  tableName: 'yy_server_facility',
   sequelize: sequelize,
   timestamps: false,
 })
-module.exports = yy_brand_shop_mode
+module.exports = yy_server_facility

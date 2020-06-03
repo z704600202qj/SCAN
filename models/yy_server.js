@@ -19,7 +19,7 @@ class yy_server extends Model {
         model: yy_server_type,
         as: 'server_type',
       }
-    ],
+      ],
       limit: size || 10,//返回个数
       offset: size * (page - 1) || 0,//起始位置,跳过数量
     })
@@ -46,7 +46,7 @@ class yy_server extends Model {
       throw new global.errs.NotFound('删除不成功')
     }
   }
-  static async editData(sid,spid, arg) {
+  static async editData(sid, spid, arg) {
     let data = await yy_server.update(arg, {
       where: {
         sid
@@ -57,7 +57,7 @@ class yy_server extends Model {
         spid
       }
     })
-    if (data[0] === 0&& list[0] === 0) {
+    if (data[0] === 0 && list[0] === 0) {
       throw new global.errs.NotFound('修改不成功')
     }
   }
@@ -79,26 +79,16 @@ class yy_server extends Model {
   }
   static async createData(server_name, arg) {
     const { stid, fids, tabula, colours } = arg
-    await sequelize.transaction(function (t) {
       // 在这里链接您的所有查询。 确保你返回他们。
-      return yy_server.create({
+      await yy_server.create({
         server_name,
         stid,
-        fids
-      }, { transaction: t })
-        .then(function (user) {
-          return yy_server_param.create({
-            sid: user.sid,
-            tabula,
-            colours
-          }, { transaction: t });
-        });
-    }).then(function (result) {
-      // 事务已被提交
-    }).catch(function (err) {
-      // 事务已被回滚
-    });
-
+      })
+      await  yy_server_param.create({
+        sid: user.sid,
+        tabula,
+        colours
+      });
   }
 }
 yy_server.init({
@@ -118,16 +108,11 @@ yy_server.init({
     allowNull: false,
     defaultValue: ''
   },
-  fids: {
-    type: DataTypes.STRING(255),
-    allowNull: false,
-    defaultValue: ''
-  }
 }, {
   tableName: 'yy_server',
   sequelize: sequelize,
   timestamps: false,
 })
-yy_server.belongsTo(yy_server_type, { foreignKey: 'stid', targetKey: 'stid' ,as:'server_type'});
+yy_server.belongsTo(yy_server_type, { foreignKey: 'stid', targetKey: 'stid', as: 'server_type' });
 
 module.exports = yy_server

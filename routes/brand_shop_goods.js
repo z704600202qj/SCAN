@@ -1,5 +1,6 @@
 const Router = require('koa-router')
 const brand_shop_goods = require('../models/yy_brand_shop_goods.js')
+const goodsFacility = require('../models/yy_goods_facility.js')
 
 const router = new Router({
     prefix: '/brand_shop_goods'
@@ -22,6 +23,14 @@ router.post('/create', async (ctx, next) => {
     const { bid, ...arg } = ctx.request.body
     try {
         let d = await brand_shop_goods.createData(bid,arg)
+        let arr=arg.fids.map(item=>{
+            return {
+                bsgid:d.bsgid,
+                fid:item,
+                device_state:1
+            }
+        })
+        await goodsFacility.createData(arr)
         ctx.body = await new global.errs.Success(d)
     } catch (e) {
         ctx.body = e

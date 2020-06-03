@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Card } from 'antd';
 import { Form, Input, Button, DatePicker, Select } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { goodsCreate, brand_shop_goods } from '@/services/goods'
+import { brand_shop_goodsCreate, brand_shop_goods } from '@/services/goods'
 import Create from './Create'
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -28,6 +27,7 @@ export default class extends Component<PropsType, StateType>{
     }
     goodsList = async () => {
         const { details } = this.props
+        console.log(details)
         let { data } = await brand_shop_goods({
             size: 100,
             page: 1,
@@ -41,7 +41,7 @@ export default class extends Component<PropsType, StateType>{
     onCreate = async (e: any) => {
         const { details } = this.props
 
-        await goodsCreate({
+        await brand_shop_goodsCreate({
             ...e,
             bsid: details.desc.bsid,
             bid: details.desc.bid,
@@ -60,11 +60,15 @@ export default class extends Component<PropsType, StateType>{
                                 <Row gutter={16}>
 
                                     <Col span={12}  >
-                                        <p><span>商戶名稱 :</span>{details.brand.brand_name}</p>
-                                        <p><span>門店名稱 :</span>{details.brand_shop.shop_name}</p>
+                                        <p><span>商戶名稱 :</span>{item.brand.brand_name}</p>
+                                        <p><span>門店名稱 :</span>{item.brand_shop.shop_name}</p>
                                         <p><span>服務類型 :</span>{item.server_type.type_name}</p>
                                         <p><span>關聯服務 :</span>{item.server.server_name}</p>
-                                        <p><span>關聯設備 :</span>星巴克</p>
+                                       {
+                                          item.goods_facility.map((items: { title: React.ReactNode; })=>{
+                                           return  <p><span>關聯設備 :</span>{items.title}</p>
+                                          })
+                                       }
                                     </Col>
                                     <Col span={12}  >
                                         <p><span>日訂單數 :</span>星巴克</p>

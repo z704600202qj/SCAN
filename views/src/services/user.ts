@@ -23,6 +23,14 @@ export async function user(params: any) {
     data: { ...params },
   });
 }
+export async function userDetail(params: any) {
+  return request({
+    url: '/user/detail',
+    method: 'post',
+    data: { ...params },
+  });
+}
+
 export async function adminedit(params: any) {
   return request({
     url: '/admin/edit',
